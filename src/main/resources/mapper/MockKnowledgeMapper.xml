@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.MockKnowledgeMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.MockKnowledge" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="created_user" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updated_user" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="version" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="assessment_again" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="assessment_change" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="assessment_first" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="major_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sort_index" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, created_time, created_user, updated_time, updated_user, version, assessment_again, 
+    assessment_change, assessment_first, major_id, sort_index, title
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mock_knowledge
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mock_knowledge
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.MockKnowledge" >
+    insert into mock_knowledge (id, created_time, created_user, 
+      updated_time, updated_user, version, 
+      assessment_again, assessment_change, assessment_first, 
+      major_id, sort_index, title
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{createdUser,jdbcType=VARCHAR}, 
+      #{updatedTime,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}, #{version,jdbcType=DOUBLE}, 
+      #{assessmentAgain,jdbcType=BIT}, #{assessmentChange,jdbcType=BIT}, #{assessmentFirst,jdbcType=BIT}, 
+      #{majorId,jdbcType=VARCHAR}, #{sortIndex,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.MockKnowledge" >
+    insert into mock_knowledge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUser != null" >
+        created_user,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="updatedUser != null" >
+        updated_user,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="assessmentAgain != null" >
+        assessment_again,
+      </if>
+      <if test="assessmentChange != null" >
+        assessment_change,
+      </if>
+      <if test="assessmentFirst != null" >
+        assessment_first,
+      </if>
+      <if test="majorId != null" >
+        major_id,
+      </if>
+      <if test="sortIndex != null" >
+        sort_index,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DOUBLE},
+      </if>
+      <if test="assessmentAgain != null" >
+        #{assessmentAgain,jdbcType=BIT},
+      </if>
+      <if test="assessmentChange != null" >
+        #{assessmentChange,jdbcType=BIT},
+      </if>
+      <if test="assessmentFirst != null" >
+        #{assessmentFirst,jdbcType=BIT},
+      </if>
+      <if test="majorId != null" >
+        #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortIndex != null" >
+        #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.MockKnowledge" >
+    update mock_knowledge
+    <set >
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        created_user = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        updated_user = #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=DOUBLE},
+      </if>
+      <if test="assessmentAgain != null" >
+        assessment_again = #{assessmentAgain,jdbcType=BIT},
+      </if>
+      <if test="assessmentChange != null" >
+        assessment_change = #{assessmentChange,jdbcType=BIT},
+      </if>
+      <if test="assessmentFirst != null" >
+        assessment_first = #{assessmentFirst,jdbcType=BIT},
+      </if>
+      <if test="majorId != null" >
+        major_id = #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="sortIndex != null" >
+        sort_index = #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.MockKnowledge" >
+    update mock_knowledge
+    set created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR},
+      version = #{version,jdbcType=DOUBLE},
+      assessment_again = #{assessmentAgain,jdbcType=BIT},
+      assessment_change = #{assessmentChange,jdbcType=BIT},
+      assessment_first = #{assessmentFirst,jdbcType=BIT},
+      major_id = #{majorId,jdbcType=VARCHAR},
+      sort_index = #{sortIndex,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

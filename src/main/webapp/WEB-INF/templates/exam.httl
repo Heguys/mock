@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<!--#set(path = request.contextPath)-->
+		<!--#set(MockPaper mockPaper)-->
+		<!--#set(MockMajor mockMajor)-->
+		<!--#set(MockStudent student = session.getAttribute("com.hxminco.mock.comm.entry.MockStudent"))-->
+		<!--#set(net.bnusei.model.UserBaseInfo userBaseInfo = session.getAttribute("net.bnusei.model.UserBaseInfo-student"))-->
+		<!--#set(MockStudentExam studentExam = session.getAttribute("studentExam"))-->
+		<!--${include("../head_table.httl")}-->
+	</head>
+
+	<body>
+
+		<!-- 顶部 -->
+		<div class="header">
+			<div class="title-div">
+				<ul class="titleClass">
+					<li class="active"><a href="${path}/student/toExamListPage.html">自测首页</a></li>
+					<li><a href="${path}/student/getExamPaper.html">模考试卷</a></li>
+					<li><span>${mockPaper.title}</span></li>
+				</ul>
+			</div>
+			<div class="headerTXT">
+				<div class="newTime">
+					<div class="timeTXT"></div>&emsp;&emsp;
+					<div class="welcome">你好,${userBaseInfo.name}</div>
+				</div>
+			</div>
+		</div>
+		<!--内容-->
+		<div class="fr answerCont">
+			<div class="answerHead clearfix">
+				<div class="answer-head-3 fl">
+					考试名称 : <span class="examName">
+					<!--#if(mockPaper.assessmentNature == 1)-->
+					${mockMajor.name}-初领
+					<!--#else(mockPaper.assessmentNature == 2)-->
+					${mockMajor.name}-复审
+					<!--#else(mockPaper.assessmentNature == 3)-->
+					${mockMajor.name}-换证
+					<!--#end-->
+				</span>
+					<input type = hidden id="examId" value="${studentExam.examId}" name="examId"/>
+				</div>
+				<div class="answer-head-r fr">
+					剩余时间 : <span class="restTime"></span>
+				</div>
+			</div>
+			<div class="answerSheet">
+				<div class="sheetHead">答题卡</div>
+				<div class="answerLegend">
+					<ul>
+						<li><span class="markLegend"></span> 标注</li>
+						<li><span class="answeredLegend"></span> 已答</li>
+						<li><span class="noAnsLegend"></span> 未答</li>
+					</ul>
+				</div>
+				<div class="questionNum">
+					<ul></ul>
+				</div>
+				<div class="subTest">
+					<button class="commonBlueBtn subPage">提交试卷</button>
+				</div>
+			</div>
+			<div class="answerQuestion">
+				<div class="quesHint">
+					<span class="personHint"><i class="alertIcon"></i>题干左侧旗帜可点击用于标记不确定的答案,并可再次点击消除.</span>
+				</div>
+				<div class="allQuestion"></div>
+			</div>
+		</div>
+		
+		<!--右侧浮动信息-->
+		<div class="fixInfo">
+			<img src="${userBaseInfo.photoUrl}" alt="" class="" /><br />
+			<div class="basicInfo">
+				<div class="nameInfo">姓名: <span class="name">${userBaseInfo.name}</span></div>
+				<div class="idInfo">证件号: <span class="idNumber">${userBaseInfo.identityCard}</span></div>
+			</div>
+		</div>
+
+		<!--通用确认弹出框-->
+		<div class="confMask">
+			<div class="confMod">
+				<div class="confTop clearfix">
+					<div class="leftConf fl"><i></i>确认提示</div>
+					<button class="confCloseBtn fr"></button>
+				</div>
+				<div class="confCont"></div>
+				<div class="confTwoBtn">
+					<button class="confBtn">确定</button>
+					<button class="cancelBtn">取消</button>
+				</div>
+			</div>
+		</div>
+
+		<!--成功提示模态框-->
+		<div class="mask">
+			<div class="hintMod">
+				<div class="modHead hintModHead">成功提示</div><i></i>
+				<div class="modCont">
+					你选择的考试计划已上传成功~
+				</div>
+			</div>
+		</div>
+
+		<script src="${path}/res/js/jquery/jquery-1.11.3.min.js"></script>
+		<script src="${path}/res/js/bootstrap/js/bootstrap.min.js"></script>
+		<script src="${path}/res/js/mock/common.js"></script>
+		<!--[if lt IE 9]>
+		<script type="text/javascript" src="${path}/res/js/html5shiv/3.7.2/html5shiv.min.js" ></script>
+		<script type="text/javascript" src="${path}/res/js/respondjs/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<script type="text/javascript">
+			$(function() {
+				//旗帜点击
+				$(document).on("click", ".flag", function () {
+					var No = $(this).next(".orderNum").text();
+					if ($(this).hasClass("flagW")) {
+						$(this).removeClass("flagW").addClass("flagR");
+						$(".questionNum li.answer" + No).addClass("marked");
+					} else {
+						$(this).removeClass("flagR").addClass("flagW");
+						$(".questionNum li.answer" + No).removeClass("marked");
+					}
+				})
+				var optionWord = '';
+				//加载题目及答题卡
+				$.ajax({
+					url: "${path}/student/startExam.ajax",
+					type: "get",
+					success: function (data) {
+						var paperQuestions = data.paperQuestions;
+						if (data.success) {
+							var questionNumStr = ''; // 答题卡题号字符串
+							var allQuestionStr = ''; // 所有题目字符串
+							var quesTypeStr = ''; // 题目类型字符串
+							var optionStr = ''; // 选项字符串
+
+							//时间格式化
+							function format(time) {
+								time = time < 10 ? '0' + time : time;
+								return time;
+							}
+							var hour = parseInt(data.timeInt/60/60);
+							var min = parseInt(data.timeInt /60) % 60;
+							var sec = data.timeInt % 60;
+							var timer = setInterval(function () {
+								if((hour ==0 && min == 0 &&sec==0) || hour<0 || min < 0) {
+									$(".restTime").html("时间结束,禁止答题!");
+									$("input").attr("disabled","disabled");
+									clearInterval(timer);
+								}else {
+									if (sec == 0) {
+										sec = 59;
+										if (min == 0) {
+											min = 59;
+											hour--;
+										} else {
+											min--;
+										}
+									} else {
+										sec--;
+									}
+									var countDown = format(hour) + ' : ' + format(min) + ' : ' + format(sec);
+									$(".restTime").html(countDown);
+								}
+							}, 1000);
+
+							var inputType = "";
+							var mockQuestion = null;
+							var paperQuestion = null;
+							for (var i = 0; i < paperQuestions.length; i++) {
+								mockQuestion = paperQuestions[i].mockQuestion;
+								paperQuestion = paperQuestions[i];
+								questionNumStr += '<li class="quesTag answer' + (i + 1) + '">' + (i + 1) + '</li>';
+								//拼写选项字符串
+								optionStr = '';
+								//拼写题型字符串
+								if (mockQuestion.questionType == 3) {
+									quesTypeStr = '<span class="quesType judge">【判断题】 </span>';
+									inputType = "radio";
+
+										optionStr = '<li class="option"><input type="' + inputType + '" quesType="' + mockQuestion.questionType + '"  score="' + mockQuestion.score + '" value="true" id="answer_' + paperQuestion.sortIndex + '_option_' + 1 + '" questionId="'+mockQuestion.id+'" name="answer'+paperQuestion.sortIndex+'"/>' +
+													' <label for="answer_' + paperQuestions[i].sortIndex + '_option_' + 1 + '" questionId="'+mockQuestion.id+'" name="answer'+paperQuestion.sortIndex+'">A.正确</label></li>' +
+													'<li class="option"><input type="' + inputType + '" quesType="' + mockQuestion.questionType + '" score="' + mockQuestion.score + '" value="false" id="answer_' + paperQuestion.sortIndex + '_option_' + 2 + '" questionId="'+mockQuestion.id+'" name="answer'+paperQuestion.sortIndex+'"/>' +
+													' <label for="answer_' + paperQuestions[i].sortIndex + '_option_' + 2 + '" questionId="'+mockQuestion.id+'" name="answer'+paperQuestion.sortIndex+'">B.错误</label></li>';
+								} else {
+									if (mockQuestion.questionType == 1) {
+										quesTypeStr = '<span class="quesType singleSelect">【单选题】</span>';
+										inputType = "radio";
+										$.each(mockQuestion.mockQuestionOptions, function (index, value) {
+											getOptionWord(value.sortIndex);
+											optionStr += '<li class="option"><input type="' + inputType + '" quesType="' + mockQuestion.questionType + '" value="' + value.id + '" score="' + mockQuestion.score + '" id="answer_' + paperQuestions[i].sortIndex + '_option_' + (index + 1) + '" questionId="'+mockQuestion.id+'" name="answer'+paperQuestion.sortIndex+'"/>' +
+											' <label for="answer_' + paperQuestions[i].sortIndex + '_option_' + (index + 1) + '" questionId="'+mockQuestion.id+'" name="answer'+paperQuestion.sortIndex+'">' + window.optionWord + value.optionContent + '</label></li>';
+										})
+									} else if (mockQuestion.questionType == 2) {
+										quesTypeStr = '<span class="quesType multSel">【多选题】</span>';
+										inputType = "checkbox";
+										$.each(mockQuestion.mockQuestionOptions, function (index, value) {
+											getOptionWord(value.sortIndex);
+											optionStr += '<li class="option"><input type="' + inputType + '" quesType="' + mockQuestion.questionType + '" value="' + value.id + '" score="' + mockQuestion.score + '" id="answer_' + paperQuestion.sortIndex + '_option_' + (index + 1) + '" questionId="'+mockQuestion.id+'" name="answer'+paperQuestion.sortIndex+'"/>' +
+											' <label for="answer_' + paperQuestions[i].sortIndex + '_option_' + (index + 1) + '" questionId="'+mockQuestion.id+'" name="answer'+paperQuestion.sortIndex+'">' + optionWord + value.optionContent + '</label></li>';
+										})
+									}
+								}
+
+								allQuestionStr +=
+										'<form class="singleQuestion" id="' + mockQuestion.id + '" sort="'+paperQuestion.sortIndex+'" name=" question_' + mockQuestion.id + '">'
+										+ '<div class="quesAsk">'
+										+ '<i class="flag flagW"></i> <span class="orderNum">' + paperQuestion.sortIndex + '</span>. '
+										+ quesTypeStr
+										+ '  <span class="askText">' + mockQuestion.questionContent + '(' + mockQuestion.score + '分)</span>'
+										+ '</div>'
+										+ '<ul class="allOption">'
+										+ optionStr
+										+ '</ul>'
+										+ '</form>';
+							}
+							$(".questionNum ul").append(questionNumStr);
+							$(".allQuestion").append(allQuestionStr);
+						} else {
+							$(".mask").show();
+							$(".hintModHead").text("失败提示").addClass("hintModHeadFail");
+							$(".modCont").text(data.error);
+						}
+						questionReviewMethod(data.studentAnswers);
+					}
+				})
+			})
+			//点击答题卡跳到相应题目位置
+			$(document).on("click", ".questionNum li", function () {
+				var scroll_offset = $("form[sort=" + $(this).text() + "]").offset(); //得到pos这个div层的offset，包含两个值，top和left
+				$("body,html").animate({
+					scrollTop: scroll_offset.top - 149 //让body的scrollTop等于pos的top，就实现了滚动
+				});
+			})
+			function getOptionWord(sortIndex) {
+				switch (sortIndex) {
+					case 1:
+						optionWord = 'A.'
+						break;
+					case 2:
+						optionWord = 'B.'
+						break;
+					case 3:
+						optionWord = 'C.'
+						break;
+					case 4:
+						optionWord = 'D.'
+						break;
+				}
+			}
+
+			$(document).on("click", ".option input[type=radio]", function () {
+				var questionId = $(this).closest(".singleQuestion").attr("id");
+				var No = $(this).attr("name");
+				$(".questionNum li."+No).addClass("answered");
+				answerChoiceSingleClicked(questionId);
+			});
+
+			$(document).on("click", ".option input[type=checkbox]", function () {
+				var questionId = $(this).closest(".singleQuestion").attr("id");
+				var No = $(this).attr("name");
+				$(".questionNum li."+No).addClass("answered");
+				var noCheckFlag = true;
+					$.each($(this).parents(".allOption").children("li"), function (i, v) {
+						if ($(this).children("input").is(":checked")) {
+							noCheckFlag = false;
+						}
+					})
+					if (noCheckFlag) {
+						$(".questionNum li." + No).removeClass("answered");
+					}
+				answerChoiceMultiClicked(questionId);
+			});
+
+			function answerChoiceSingleClicked(questionId){
+				var examId = $("#examId").val();
+				var answer = $("input[questionId=" + questionId + "]:checked").val();
+				try{
+					debug.log("examId = " + examId + " , questionId = " + questionId + ", answer = " + answer);
+				}catch(ex){}
+				if(answer != undefined && answer != ''){
+					$.ajax({
+						type : 'POST',
+						url : "${path}/student/answer.ajax",
+						data : {
+							"examId": examId,
+							"questionId": questionId,
+							"answer": answer
+						},
+						success : function(data){
+							if(data.success){
+								$("#question_flag_" + questionId).addClass("glyphicon-ok");
+							}else{
+								$(".mask").show();
+								$(".mask .hintModHead").text("答题出错!").addClass("hintModHeadFail");
+								$(".mask .modCont").text(data.error);
+							}
+						}
+					});
+				}
+			}
+
+			function answerChoiceMultiClicked(questionId){
+				var examId = $("#examId").val();
+				var checkedOptions = $("input[questionId=" + questionId + "]:checked");
+				var answers = '';
+				for(var i=0;i<checkedOptions.length;i++){
+					var answer = $(checkedOptions[i]).val();
+					if(i > 0){
+						answers += ",";
+					}
+					answers += answer;
+				}
+				try{
+					debug.log("examId = " + examId + " , questionId = " + questionId + ", answer = " + answer);
+				}catch(ex){}
+				if(answer != undefined && answer != ''){
+					$.ajax({
+						type : 'POST',
+						url : "${path}/student/answer.ajax",
+						data : {
+							"examId": examId,
+							"questionId": questionId,
+							"answer": answers
+						},
+						success : function(data){
+							if(data.success){
+								$("#question_flag_" + questionId).addClass("glyphicon-ok");
+							}else{
+								$(".mask").show();
+								$(".mask .hintModHead").text("答题出错!").addClass("hintModHeadFail");
+								$(".mask .modCont").text(data.error);
+							}
+						}
+					});
+				}
+			}
+
+			//提交试卷
+			$(document).on("click",".subPageMask .confBtn", function () {
+				var examId = $("#examId").val();
+				$(".confMask").fadeOut().removeClass("subPageMask");
+				$.ajax({
+					url: '${path}/student/commit.ajax',
+					data: {"examId" : examId},
+					success: function (data) {
+						if (data.success) {
+							$(".mask").show();
+							$(".hintModHead").text("成功提示").removeClass("hintModHeadFail");
+							$(".modCont").text(data.message + ",即将跳转到考生考试记录页面");
+							setTimeout(function () {
+								window.location.href = "${path}/student/toExamListPage.html"
+							}, 1500);
+						} else {
+							$(".subPage").attr('disabled', false);
+							$(".mask").show();
+							$(".mask .hintModHead").text("失败提示").addClass("hintModHeadFail");
+							$(".mask .modCont").text(data.error);
+						}
+					}
+				})
+			})
+
+			$(document).on("click",".subPage",function(){
+				$(".confMask").show().addClass("subPageMask");
+				$(".confCont").text("是否确定提交试卷?");
+			})
+
+
+			function questionReviewMethod(review){
+				if (Boolean(review) && review.length!=0 ){
+					$.each(review,function(i,v){
+						if(v.answer.indexOf(",") >= 0){
+							var str = v.answer.split(",");
+							$.each(str,function(index,val){
+								$("#" + v.questionId + " input[value=" + val + "]").attr("checked", true);
+							})
+						}else {
+							$("#" + v.questionId + " input[value=" + v.answer + "]").attr("checked", true);
+						}
+						//答题卡回显
+						var No = $("#"+v.questionId+" .orderNum").text();
+						$(".questionNum li.answer"+No).addClass("answered");
+
+					});
+				}
+			}
+		</script>
+	</body>
+
+</html>

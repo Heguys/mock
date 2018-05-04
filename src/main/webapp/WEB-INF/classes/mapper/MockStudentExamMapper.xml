@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.MockStudentExamMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.MockStudentExam" >
+    <constructor >
+      <idArg column="exam_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="account" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="exam_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="exam_passed" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="exam_score" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="exam_status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="first_exam_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="max_score" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="student_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="paper_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="deleted" jdbcType="BIT" javaType="java.lang.Boolean" />
+    </constructor>
+    <association property="mockPaper" column="paper_id" autoMapping="true"
+                 select="com.hxminco.mock.ioc.d.MockPaperMapper.selectByPrimaryKey"/>
+  </resultMap>
+
+
+  <sql id="Base_Column_List" >
+    exam_id, account, exam_date, exam_passed, exam_score, exam_status, first_exam_date, 
+    max_score, student_id, paper_id, deleted
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mock_student_exam
+    where exam_id = #{examId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mock_student_exam
+    where exam_id = #{examId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.MockStudentExam" >
+    insert into mock_student_exam (exam_id, account, exam_date, 
+      exam_passed, exam_score, exam_status, 
+      first_exam_date, max_score, student_id, 
+      paper_id, deleted)
+    values (#{examId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{examDate,jdbcType=TIMESTAMP}, 
+      #{examPassed,jdbcType=BIT}, #{examScore,jdbcType=DOUBLE}, #{examStatus,jdbcType=INTEGER}, 
+      #{firstExamDate,jdbcType=TIMESTAMP}, #{maxScore,jdbcType=DOUBLE}, #{studentId,jdbcType=VARCHAR}, 
+      #{paperId,jdbcType=VARCHAR}, #{deleted,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.MockStudentExam" >
+    insert into mock_student_exam
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="examId != null" >
+        exam_id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="examDate != null" >
+        exam_date,
+      </if>
+      <if test="examPassed != null" >
+        exam_passed,
+      </if>
+      <if test="examScore != null" >
+        exam_score,
+      </if>
+      <if test="examStatus != null" >
+        exam_status,
+      </if>
+      <if test="firstExamDate != null" >
+        first_exam_date,
+      </if>
+      <if test="maxScore != null" >
+        max_score,
+      </if>
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="paperId != null" >
+        paper_id,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="examId != null" >
+        #{examId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="examDate != null" >
+        #{examDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examPassed != null" >
+        #{examPassed,jdbcType=BIT},
+      </if>
+      <if test="examScore != null" >
+        #{examScore,jdbcType=DOUBLE},
+      </if>
+      <if test="examStatus != null" >
+        #{examStatus,jdbcType=INTEGER},
+      </if>
+      <if test="firstExamDate != null" >
+        #{firstExamDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxScore != null" >
+        #{maxScore,jdbcType=DOUBLE},
+      </if>
+      <if test="studentId != null" >
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="paperId != null" >
+        #{paperId,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.MockStudentExam" >
+    update mock_student_exam
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="examDate != null" >
+        exam_date = #{examDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="examPassed != null" >
+        exam_passed = #{examPassed,jdbcType=BIT},
+      </if>
+      <if test="examScore != null" >
+        exam_score = #{examScore,jdbcType=DOUBLE},
+      </if>
+      <if test="examStatus != null" >
+        exam_status = #{examStatus,jdbcType=INTEGER},
+      </if>
+      <if test="firstExamDate != null" >
+        first_exam_date = #{firstExamDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxScore != null" >
+        max_score = #{maxScore,jdbcType=DOUBLE},
+      </if>
+      <if test="studentId != null" >
+        student_id = #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="paperId != null" >
+        paper_id = #{paperId,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=BIT},
+      </if>
+    </set>
+    where exam_id = #{examId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.MockStudentExam" >
+    update mock_student_exam
+    set account = #{account,jdbcType=VARCHAR},
+      exam_date = #{examDate,jdbcType=TIMESTAMP},
+      exam_passed = #{examPassed,jdbcType=BIT},
+      exam_score = #{examScore,jdbcType=DOUBLE},
+      exam_status = #{examStatus,jdbcType=INTEGER},
+      first_exam_date = #{firstExamDate,jdbcType=TIMESTAMP},
+      max_score = #{maxScore,jdbcType=DOUBLE},
+      student_id = #{studentId,jdbcType=VARCHAR},
+      paper_id = #{paperId,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=BIT}
+    where exam_id = #{examId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByStudentIdAndPaperIdDoing" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from mock_student_exam
+    where student_id=#{studentId,jdbcType=VARCHAR} AND
+    paper_id=#{paperId,jdbcType=VARCHAR} AND
+    exam_status=#{status,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectExamPageModelListByStudentId4Page" parameterType="map" resultType="com.hxminco.mock.comm.model.ExamPageModel">
+    select
+    mse.exam_id examId,
+    mp.title title,
+    mse.exam_status examStatus,
+    mse.exam_date examDate,
+    mse.exam_score examScore
+    from mock_student_exam mse,mock_paper mp
+    where mse.paper_id = mp.id and
+    mse.student_id=#{studentId}
+    order by mse.exam_date desc
+    limit #{start},#{limit}
+  </select>
+
+  <select id="selectCountByStudentId4Page" parameterType="map" resultType="int">
+    select
+    count(*)
+    from mock_student_exam mse,mock_paper mp
+    where mse.paper_id = mp.id and
+    mse.student_id=#{studentId}
+  </select>
+
+  <select id="selectByExamDoing4Page" parameterType="map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from mock_student_exam
+    where  exam_status=#{status,jdbcType=INTEGER}
+    order by exam_date
+    limit #{start} ,#{limit}
+  </select>
+</mapper>

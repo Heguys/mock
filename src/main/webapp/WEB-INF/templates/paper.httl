@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--#set(path = request.contextPath)-->
+    <!--#set(net.bnusei.model.UserBaseInfo userBaseInfo = session.getAttribute("net.bnusei.model.UserBaseInfo-student"))-->
+    <!--${include("../head_table.httl")}-->
+</head>
+<body style="background-color: #fff">
+<div class="header">
+    <div class="title-div">
+        <ul class="titleClass">
+            <li><a href="${path}/student/toExamListPage.html">自测首页</a></li>
+            <li><a class="active" href="${path}/student/getExamPaper.html">模考试卷</a></li>
+        </ul>
+    </div>
+    <div class="headerTXT">
+        <div class="newTime">
+            <div class="timeTXT"></div>&emsp;&emsp;
+            <div class="welcome">你好,${userBaseInfo.name}</div>
+        </div>
+    </div>
+</div>
+<div style="margin-top: 6%">
+    <p style="font-size: 20px; color: #317eac;margin: 10px 20px;">请选择一个考核对象:</p>
+</div>
+<div style="margin-top: auto">
+    <form class="form-horizontal">
+        <div class="col-xs-4 form-group">
+            <div class="row">
+                <div class="form-group ">
+                    <label for="select0" class="col-xs-4 control-label"></label>
+
+                    <div class="col-xs-8">
+                        <select class="form-control" id="select0" name="select0"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 form-group">
+            <div class="row">
+                <div class="form-group ">
+                    <label for="select1" class="col-xs-4 control-label"></label>
+
+                    <div class="col-xs-8">
+                        <select class="form-control" id="select1" name="select1"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 form-group">
+            <div class="row">
+                <div class="form-group ">
+                    <label for="select2" class="col-xs-4 control-label"></label>
+
+                    <div class="col-xs-8">
+                        <select class="form-control" id="select2" name="select2"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 form-group">
+            <div class="row">
+                <div class="form-group ">
+                    <label for="selectAssessment" class="col-xs-4 control-label">考试类别</label>
+
+                    <div class="col-xs-8">
+                        <select class="form-control" id="selectAssessment" name="selectAssessment">
+                            <option value="1">${"PaperRule.assessmentFirst".message}</option>
+                            <option value="2">${"PaperRule.assessmentAgain".message}</option>
+                            <option value="3">${"PaperRule.assessmentChange".message}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-4 form-group">
+            <div class="row">
+                <div class="form-group ">
+                    <button type="button" class="btn btn-primary getPaperBtn" onclick="getPaperRuleList()">获取试卷</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <input type="hidden" id="paperRuleId">
+</div>
+
+
+<div style="width:90%;margin:0 5%;">
+    <table id="table"></table>
+</div>
+
+</body>
+<script src="${path}/res/js/mock/common.js"></script>
+<script>
+
+    $(function () {
+        var data = {}
+
+        function loadOptions(n, pId, clabel) {
+            if (clabel) {
+                $('label[for=select' + n + ']').text(clabel + ':');
+            } else {
+                $('label[for=select' + n + ']').text('');
+            }
+            var select = $('#select' + n);
+            if (0 < select.length) {
+                $.getJSON('${path}/mockmajor/getListByPid.ajax', {pId: pId}, function (json) {
+                    select.empty();
+                    $.each(json, function (i, data) {
+                        select.append($('<option>').val(data.majorId).text(data.name).attr('clabel', data.childrenLabel));
+                    });
+                    var op = select.children('option:selected');
+                    loadOptions(n + 1, op.val(), op.attr('clabel'));
+                    select.focus();
+                });
+            } else {
+                var majorId = $('#select2 option:selected').val();
+                if (majorId == undefined || majorId == '') {
+                    majorId = $('#select1 option:selected').val();
+                }
+                var dataPaperRule = {}
+                var selectAssessment = $('#selectAssessment option:selected').val();
+                dataPaperRule["majorId"] = majorId;
+                dataPaperRule["assessmentNature"] = selectAssessment;
+                $.ajax({
+                    url: "getPaperRule.ajax",
+                    type: 'POST',
+                    data: dataPaperRule,
+                    success: function (data) {
+                        if (data != "") {
+                            $('#selectAssessment').val(data.assessmentNature);
+                            $('#paperType').val(data.paperType);
+                            $('#duration').val(data.duration);
+                            $('#passMark').val(data.passMark);
+                            $('#sumMark').val(data.sumMark);
+                            $('#paperRuleId').val(data.id);
+                        } else {
+                            $('#selectAssessment').val("0");
+                            $('#paperType').val("0");
+                            $('#duration').val("");
+                            $('#passMark').val("");
+                            $('#sumMark').val("");
+                            $('#paperRuleId').val("");
+                        }
+                        $('#table').bootstrapTable('refresh');
+                        $('#modify').modal('hide');
+                    }
+                });
+            }
+        }
+
+        loadOptions(0, '', '资格类型');
+
+        $('select[id^=select]').each(function (i) {
+            $('#select' + i).change(function () {
+                var op = $(this).children('option:selected');
+                loadOptions(i + 1, op.val(), op.attr('clabel'));
+            });
+        });
+    });
+
+    function getPaperRuleList() {
+        $("#table").bootstrapTable('destroy');
+        $('#table').bootstrapTable({
+            url: '${path}/paper/getMockPaper.ajax'
+            , method: 'GET'
+            , dataField: "rows"
+            , cache: false
+            , contentType: 'application/x-www-form-urlencoded'
+            , height: $(window).height() - 270
+            , striped: true
+            , pagination: false
+            , pageList: [5, 10, 30, 50, 100]
+            , pageSize: 5
+            , pageNumber: 1
+            , sidePagination: 'server'
+            , clickToSelect: true
+            , search: false
+            , silent: true
+            , queryParams: function (params) {
+                if (params['search']) {
+                    params['title'] = params['search'];
+                }
+                var majorId = $('#select2 option:selected').val();
+                if (majorId == undefined || majorId == '') {
+                    majorId = $('#select1 option:selected').val();
+
+                }
+                var assessmentId = $('#selectAssessment option:selected').val();
+
+
+                if (assessmentId == "1") {
+                    params['assessmentNature'] = 1;
+                } else if (assessmentId == "2") {
+                    params['assessmentNature'] = 2;
+                } else if (assessmentId == "3") {
+                    params['assessmentNature'] = 3;
+                }
+                params["majorId"] = majorId;
+                return params;
+            }
+            , columns: [
+                {
+                    field: 'mockMajor'
+                    , title: '考核对象'
+                    , formatter: function (value, row, index) {
+                    return value.name;
+                    }
+                },
+                {
+                    field: 'assessmentNature'
+                    , title: '取证类型'
+                    , formatter: function (value, row, index) {
+                    var e = '';
+                    if (value == 1) {
+                        e = '初领';
+                    } else if (value == 2) {
+                        e = '复审';
+                    } else if (value == 3) {
+                        e = '换证';
+                    }
+                    return e;
+                }
+                },
+                {
+                    field: 'duration'
+                    , title: '考试时间'
+                },
+                {
+                    field: 'summark'
+                    , title: '总分'
+                },
+                {
+                    field: 'passmark'
+                    , title: '及格分'
+                },
+                {
+                    field: 'id'
+                    , title: '操作'
+                    , align: 'center'
+                    , formatter: function (value, row, index) {
+                    var e = '<button type="button" class="btn btn-success" onclick="window.location.href=\'${path}/student/examPage.html?paperId=' + value + '\'"><span class="glyphicon glyphicon-pencil">模考</span></button>';
+                    return e;
+                }
+                }]
+        });
+    }
+</script>
+</html>

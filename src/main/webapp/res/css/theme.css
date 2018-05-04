@@ -1,0 +1,79 @@
+/*body {
+  padding-top: 70px;
+  padding-bottom: 30px;
+}*/
+
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+
+.getPaperBtn{
+  margin-left: 80px;
+}
+
+
+
+.titleClass {
+  overflow:hidden;
+
+}
+.titleClass  li {
+  display:inline;
+}
+
+.titleClass span {
+  color: #fff;
+  font-size: 17px;
+  position: relative;
+  padding-left: 80px;
+}
+
+.title-div{
+  height: 100%;
+  width: 60%;
+  display: inline-flex;
+  align-items:center;
+}
+
+.answer-head-l{
+  text-align: center;
+  font: 16px/30px "微软雅黑";
+  overflow:hidden;
+}
+
+.answer-head-2{
+  text-align: center;
+  font: 20px/30px "微软雅黑";
+  color:lightseagreen;
+}
+
+.answer-head-3{
+  text-align: center;
+  font: 16px/60px "微软雅黑";
+  overflow:hidden;
+}
+
+.title-span{
+  margin: 0 7%;
+}
+
+.inputClass{
+  display: block;
+  color: #555;
+  height: 30px;
+  width: 50px;
+  font-size: 12px;
+  line-height: 1.5;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}

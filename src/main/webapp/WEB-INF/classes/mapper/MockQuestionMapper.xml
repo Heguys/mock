@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.MockQuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.MockQuestion" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="created_user" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updated_user" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="version" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="assessment_again" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="assessment_change" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="assessment_first" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="question_content" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="difficulty" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="judge_correct" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="knowledge_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="major_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="question_type" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="score" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="source" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+    <collection property="mockQuestionOptions" column="id" autoMapping="true"
+                select="com.hxminco.mock.ioc.d.MockQuestionOptionMapper.selectListByQuestionId"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, created_time, created_user, updated_time, updated_user, version, assessment_again, 
+    assessment_change, assessment_first, question_content, difficulty, judge_correct, 
+    knowledge_id, major_id, question_type, score, source
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mock_question
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mock_question
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.MockQuestion" >
+    insert into mock_question (id, created_time, created_user, 
+      updated_time, updated_user, version, 
+      assessment_again, assessment_change, assessment_first, 
+      question_content, difficulty, judge_correct, 
+      knowledge_id, major_id, question_type, 
+      score, source)
+    values (#{id,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{createdUser,jdbcType=VARCHAR}, 
+      #{updatedTime,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}, #{version,jdbcType=DOUBLE}, 
+      #{assessmentAgain,jdbcType=BIT}, #{assessmentChange,jdbcType=BIT}, #{assessmentFirst,jdbcType=BIT}, 
+      #{questionContent,jdbcType=VARCHAR}, #{difficulty,jdbcType=INTEGER}, #{judgeCorrect,jdbcType=BIT}, 
+      #{knowledgeId,jdbcType=VARCHAR}, #{majorId,jdbcType=VARCHAR}, #{questionType,jdbcType=INTEGER}, 
+      #{score,jdbcType=DOUBLE}, #{source,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.MockQuestion" >
+    insert into mock_question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUser != null" >
+        created_user,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="updatedUser != null" >
+        updated_user,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="assessmentAgain != null" >
+        assessment_again,
+      </if>
+      <if test="assessmentChange != null" >
+        assessment_change,
+      </if>
+      <if test="assessmentFirst != null" >
+        assessment_first,
+      </if>
+      <if test="questionContent != null" >
+        question_content,
+      </if>
+      <if test="difficulty != null" >
+        difficulty,
+      </if>
+      <if test="judgeCorrect != null" >
+        judge_correct,
+      </if>
+      <if test="knowledgeId != null" >
+        knowledge_id,
+      </if>
+      <if test="majorId != null" >
+        major_id,
+      </if>
+      <if test="questionType != null" >
+        question_type,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DOUBLE},
+      </if>
+      <if test="assessmentAgain != null" >
+        #{assessmentAgain,jdbcType=BIT},
+      </if>
+      <if test="assessmentChange != null" >
+        #{assessmentChange,jdbcType=BIT},
+      </if>
+      <if test="assessmentFirst != null" >
+        #{assessmentFirst,jdbcType=BIT},
+      </if>
+      <if test="questionContent != null" >
+        #{questionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="difficulty != null" >
+        #{difficulty,jdbcType=INTEGER},
+      </if>
+      <if test="judgeCorrect != null" >
+        #{judgeCorrect,jdbcType=BIT},
+      </if>
+      <if test="knowledgeId != null" >
+        #{knowledgeId,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null" >
+        #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="questionType != null" >
+        #{questionType,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.MockQuestion" >
+    update mock_question
+    <set >
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        created_user = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        updated_user = #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=DOUBLE},
+      </if>
+      <if test="assessmentAgain != null" >
+        assessment_again = #{assessmentAgain,jdbcType=BIT},
+      </if>
+      <if test="assessmentChange != null" >
+        assessment_change = #{assessmentChange,jdbcType=BIT},
+      </if>
+      <if test="assessmentFirst != null" >
+        assessment_first = #{assessmentFirst,jdbcType=BIT},
+      </if>
+      <if test="questionContent != null" >
+        question_content = #{questionContent,jdbcType=VARCHAR},
+      </if>
+      <if test="difficulty != null" >
+        difficulty = #{difficulty,jdbcType=INTEGER},
+      </if>
+      <if test="judgeCorrect != null" >
+        judge_correct = #{judgeCorrect,jdbcType=BIT},
+      </if>
+      <if test="knowledgeId != null" >
+        knowledge_id = #{knowledgeId,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null" >
+        major_id = #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="questionType != null" >
+        question_type = #{questionType,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.MockQuestion" >
+    update mock_question
+    set created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR},
+      version = #{version,jdbcType=DOUBLE},
+      assessment_again = #{assessmentAgain,jdbcType=BIT},
+      assessment_change = #{assessmentChange,jdbcType=BIT},
+      assessment_first = #{assessmentFirst,jdbcType=BIT},
+      question_content = #{questionContent,jdbcType=VARCHAR},
+      difficulty = #{difficulty,jdbcType=INTEGER},
+      judge_correct = #{judgeCorrect,jdbcType=BIT},
+      knowledge_id = #{knowledgeId,jdbcType=VARCHAR},
+      major_id = #{majorId,jdbcType=VARCHAR},
+      question_type = #{questionType,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      source = #{source,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <insert id="insertMockQuestionList" parameterType="map" >
+    insert into mock_question (id, created_time, created_user,
+    updated_time, updated_user, version,
+    assessment_again, assessment_change, assessment_first,
+    question_content, difficulty, judge_correct,
+    knowledge_id, major_id, question_type,
+    score, source)
+    values
+    <foreach collection="question" item="val" separator=",">
+      (#{val.id,jdbcType=VARCHAR},(now()), #{val.createdUser,jdbcType=VARCHAR},
+      (now()), #{val.updatedUser,jdbcType=VARCHAR}, #{val.version,jdbcType=DOUBLE},
+      #{val.assessmentAgain,jdbcType=BIT}, #{val.assessmentChange,jdbcType=BIT}, #{val.assessmentFirst,jdbcType=BIT},
+      #{val.questionContent,jdbcType=VARCHAR}, #{val.difficulty,jdbcType=INTEGER}, #{val.judgeCorrect,jdbcType=BIT},
+      #{val.knowledgeId,jdbcType=VARCHAR}, #{val.majorId,jdbcType=VARCHAR}, #{val.questionType,jdbcType=INTEGER},
+      #{val.score,jdbcType=DOUBLE}, #{val.source,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+
+  <select id="selectListByPaperQuestions" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List" />
+    from mock_question
+    where id in
+    <foreach collection="list" item="val" open="(" close=")" separator=",">
+      #{val.questionId}
+    </foreach>
+  </select>
+
+  <select id="deleteByPaperQuestions" parameterType="map" >
+    delete from mock_question
+    where id in
+    <foreach collection="list" item="val" open="(" close=")" separator=",">
+      #{val.questionId}
+    </foreach>
+  </select>
+</mapper>

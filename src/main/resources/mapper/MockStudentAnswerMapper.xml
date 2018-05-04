@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.MockStudentAnswerMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.MockStudentAnswer" >
+    <constructor >
+      <idArg column="answer_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="answer" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="answer_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="correct" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="exam_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="judged" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="question_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="score" jdbcType="DOUBLE" javaType="java.lang.Double" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    answer_id, answer, answer_time, correct, exam_id, judged, question_id, score
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mock_student_answer
+    where answer_id = #{answerId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mock_student_answer
+    where answer_id = #{answerId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.MockStudentAnswer" >
+    insert into mock_student_answer (answer_id, answer, answer_time, 
+      correct, exam_id, judged, question_id, 
+      score)
+    values (#{answerId,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, #{answerTime,jdbcType=TIMESTAMP}, 
+      #{correct,jdbcType=BIT}, #{examId,jdbcType=VARCHAR}, #{judged,jdbcType=BIT}, #{questionId,jdbcType=VARCHAR}, 
+      #{score,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.MockStudentAnswer" >
+    insert into mock_student_answer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="answerId != null" >
+        answer_id,
+      </if>
+      <if test="answer != null" >
+        answer,
+      </if>
+      <if test="answerTime != null" >
+        answer_time,
+      </if>
+      <if test="correct != null" >
+        correct,
+      </if>
+      <if test="examId != null" >
+        exam_id,
+      </if>
+      <if test="judged != null" >
+        judged,
+      </if>
+      <if test="questionId != null" >
+        question_id,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="answerId != null" >
+        #{answerId,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null" >
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="answerTime != null" >
+        #{answerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="correct != null" >
+        #{correct,jdbcType=BIT},
+      </if>
+      <if test="examId != null" >
+        #{examId,jdbcType=VARCHAR},
+      </if>
+      <if test="judged != null" >
+        #{judged,jdbcType=BIT},
+      </if>
+      <if test="questionId != null" >
+        #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.MockStudentAnswer" >
+    update mock_student_answer
+    <set >
+      <if test="answer != null" >
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="answerTime != null" >
+        answer_time = #{answerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="correct != null" >
+        correct = #{correct,jdbcType=BIT},
+      </if>
+      <if test="examId != null" >
+        exam_id = #{examId,jdbcType=VARCHAR},
+      </if>
+      <if test="judged != null" >
+        judged = #{judged,jdbcType=BIT},
+      </if>
+      <if test="questionId != null" >
+        question_id = #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where answer_id = #{answerId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.MockStudentAnswer" >
+    update mock_student_answer
+    set answer = #{answer,jdbcType=VARCHAR},
+      answer_time = #{answerTime,jdbcType=TIMESTAMP},
+      correct = #{correct,jdbcType=BIT},
+      exam_id = #{examId,jdbcType=VARCHAR},
+      judged = #{judged,jdbcType=BIT},
+      question_id = #{questionId,jdbcType=VARCHAR},
+      score = #{score,jdbcType=DOUBLE}
+    where answer_id = #{answerId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectListByExamId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from mock_student_answer
+    where exam_id=#{examId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByExamIdAndQuestionId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from mock_student_answer
+    where exam_id=#{examId,jdbcType=VARCHAR} AND
+    question_id=#{questionId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByQuestionId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from mock_student_answer
+    where question_id=#{questionId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectCountScoreByExamId" parameterType="java.lang.String" resultType="java.lang.Double">
+    select sum(score)
+    from mock_student_answer
+    where exam_id=#{examId,jdbcType=VARCHAR}
+  </select>
+</mapper>

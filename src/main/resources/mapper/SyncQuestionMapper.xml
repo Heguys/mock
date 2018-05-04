@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.SyncQuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.SyncQuestion" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="tqid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="paperId" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="paperOrder" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="questionTypeCode" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="difficultyLevelCode" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="score" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="sort" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="type" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="XX" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, tqid, description, paperId, paperOrder, questionTypeCode, difficultyLevelCode, 
+    score, sort, type, XX
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from qb_history_question
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from qb_history_question
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.SyncQuestion" >
+    insert into qb_history_question (id, tqid, description, 
+      paperId, paperOrder, questionTypeCode, 
+      difficultyLevelCode, score, sort, 
+      type, XX)
+    values (#{id,jdbcType=VARCHAR}, #{tqid,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{paperId,jdbcType=VARCHAR}, #{paperOrder,jdbcType=INTEGER}, #{questionTypeCode,jdbcType=INTEGER}, 
+      #{difficultyLevelCode,jdbcType=INTEGER}, #{score,jdbcType=DOUBLE}, #{sort,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{XX,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.SyncQuestion" >
+    insert into qb_history_question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tqid != null" >
+        tqid,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="paperId != null" >
+        paperId,
+      </if>
+      <if test="paperOrder != null" >
+        paperOrder,
+      </if>
+      <if test="questionTypeCode != null" >
+        questionTypeCode,
+      </if>
+      <if test="difficultyLevelCode != null" >
+        difficultyLevelCode,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="XX != null" >
+        XX,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="tqid != null" >
+        #{tqid,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="paperId != null" >
+        #{paperId,jdbcType=VARCHAR},
+      </if>
+      <if test="paperOrder != null" >
+        #{paperOrder,jdbcType=INTEGER},
+      </if>
+      <if test="questionTypeCode != null" >
+        #{questionTypeCode,jdbcType=INTEGER},
+      </if>
+      <if test="difficultyLevelCode != null" >
+        #{difficultyLevelCode,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="XX != null" >
+        #{XX,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.SyncQuestion" >
+    update qb_history_question
+    <set >
+      <if test="tqid != null" >
+        tqid = #{tqid,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="paperId != null" >
+        paperId = #{paperId,jdbcType=VARCHAR},
+      </if>
+      <if test="paperOrder != null" >
+        paperOrder = #{paperOrder,jdbcType=INTEGER},
+      </if>
+      <if test="questionTypeCode != null" >
+        questionTypeCode = #{questionTypeCode,jdbcType=INTEGER},
+      </if>
+      <if test="difficultyLevelCode != null" >
+        difficultyLevelCode = #{difficultyLevelCode,jdbcType=INTEGER},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="XX != null" >
+        XX = #{XX,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.SyncQuestion" >
+    update qb_history_question
+    set tqid = #{tqid,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      paperId = #{paperId,jdbcType=VARCHAR},
+      paperOrder = #{paperOrder,jdbcType=INTEGER},
+      questionTypeCode = #{questionTypeCode,jdbcType=INTEGER},
+      difficultyLevelCode = #{difficultyLevelCode,jdbcType=INTEGER},
+      score = #{score,jdbcType=DOUBLE},
+      sort = #{sort,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      XX = #{XX,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByPaperIdAndPaperOrder" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from qb_history_question
+    where paperId=#{paperId} and
+    paperOrder=#{paperOrder}
+  </select>
+
+  <select id="selectQuestionListByPaperId" resultType="com.hxminco.mock.comm.model.MockQuestionAndAnswer">
+    select
+    question.id as id,
+    'admin' as createdUser,
+    'admin' as updatedUser,
+    '1' as version,
+    question.description as questionContent,
+    question.difficultyLevelCode as difficulty,
+    question.questionTypeCode as questionType ,
+    question.score as score,
+    question.paperId as paperId,
+    question.sort as sortIndex,
+    question.paperOrder as paperOrder,
+    answer.id as answerId,
+    answer.description as optionContent,
+    answer.isValid as correct
+    from qb_history_question question, qb_history_answer answer
+    where answer.questionId = question.id and
+    question.paperId=#{paperId} and question.paperOrder=#{paperOrder}
+    order by question.id
+  </select>
+</mapper>

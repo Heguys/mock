@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--#set(path = request.contextPath)-->
+    <!--#set(MockStudentExam studentExam = session.getAttribute("studentExam"))-->
+    <!--#set(MockStudent mockStudent = session.getAttribute("com.hxminco.mock.comm.entry.MockStudent"))-->
+    <!--#set(net.bnusei.model.UserBaseInfo userBaseInfo = session.getAttribute("net.bnusei.model.UserBaseInfo-student"))-->
+    <!--${include("../head_table.httl")}-->
+</head>
+<body class="bgPhoto">
+<div class="header">
+    <div class="title-div">
+        <ul class="titleClass">
+            <li><a class="active" href="${path}/student/toExamListPage.html">自测首页</a></li>
+            <li><a href="${path}/student/getExamPaper.html">模考试卷</a></li>
+        </ul>
+    </div>
+    <div class="headerTXT">
+        <div class="newTime">
+            <div class="timeTXT"></div>&emsp;&emsp;
+            <div class="welcome">你好,${userBaseInfo.name}</div>
+        </div>
+    </div>
+</div>
+    <div>
+        <div class="fl" style="background-color:#fff;margin:7% auto 0 5%;width:65%;">
+            <table class="table table-hover" id="table"></table>
+        </div>
+        <div class="fr" style="background-color:#fff;margin:7% 5% 0 auto;width:20%;">
+            <div class="panel panel-default">
+                <div class="panel-heading">我的数据</div>
+                <table class="table table-condensed">
+                    <tr>
+                        <th>学生姓名</th>
+                        <td>${userBaseInfo.name}</td>
+                    </tr>
+                    <tr>
+                        <th>首次访问</th>
+                        <td>${mockStudent.createDate}</td>
+                    </tr>
+                    <tr>
+                        <th>已模考的次数</th>
+                        <td>${mockStudent.completedMocks}</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+<script src="${path}/res/js/mock/common.js"></script>
+<script>
+
+    $(function () {
+        getStudentExamList();
+    })
+
+
+
+    function getStudentExamList() {
+        //$("#table").bootstrapTable('destroy');
+        $('#table').bootstrapTable({
+            url: '${path}/student/getStudentExamList.ajax'
+            , method: 'GET'
+            , dataField: "rows"
+            , cache: false
+            , contentType: 'application/x-www-form-urlencoded'
+            , height: $(window).height() - 300
+            , striped: true
+            , pagination: true
+            , pageList: [5, 10, 30, 50, 100]
+            , pageSize: 5
+            , pageNumber: 1
+            , sidePagination: 'server'
+            , clickToSelect: true
+            , search: false
+            , queryParams: function (params) {
+                if (params['search']) {
+                    params['title'] = params['search'];
+                }
+                offset = params.offset;
+                return params;
+            }
+            , columns: [
+                {
+                    title: "序号",
+                    align: 'center'
+                    ,formatter: function (value, row, index) {
+                        return offset + index + 1;
+                    }
+                },
+                {
+                    field: 'title'
+                    , title: '试卷标题'
+                    , align: 'center'
+                },
+                {
+                    field: 'examStatus'
+                    , title: '模考状态'
+                    , align: 'center'
+                    ,formatter: function (value, row, index) {
+                        var status = '';
+                        if (value == 2) {
+                            status = "考试中";
+                        } else if (value == 3) {
+                            status = "已完成";
+                        }
+                        return status;
+                    }
+                },
+                {
+                    field: 'examDate'
+                    , title: '模考开始时间'
+                    , align: 'center'
+                    ,formatter: function (value, row, index) {
+                        return changeDateFormat(value);
+                    }
+
+                },
+                {
+                    field: 'examScore'
+                    , title: '模考分数'
+                    , align: 'center'
+                    ,formatter: function (value, row, index) {
+                        if(row.examStatus == 2){
+                            return '';
+                        }else{
+                            return value;
+                        }
+                    }
+                },
+                {
+                    field: 'examId'
+                    , title: '操作'
+                    , align: 'center'
+                    , formatter: function (value, row, index) {
+                    var e = '';
+                    if (row.examStatus == 2) {
+                        e = '<button type="button" class="btn btn-info" onclick="window.location.href=\'${path}/student/examPage.html?examId='+value+'\'"><span class="glyphicon glyphicon-pencil">继续考试</span></button> ';
+                    } else if (row.examStatus == 3) {
+                        e = '<button type="button" class="btn btn-success" onclick="window.location.href=\'${path}/student/toViewPage.html?examId='+value+'\'"><span class="glyphicon glyphicon-zoom-in">查看答卷</span></button> ';
+                    }
+                    return e;
+                }
+                }]
+        });
+    }
+
+    function changeDateFormat(timeJson) {
+        var cellval = timeJson.toString();
+        if (cellval != null) {
+            var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+            return date.getFullYear()
+                    + "-"
+                    + month
+                    + "-"
+                    + currentDate
+                    + " "
+                    + date.getHours()
+                    + ":"
+                    + (date.getMinutes()<10?"0" + date.getMinutes():date.getMinutes())
+                    + ":"
+                    + (date.getSeconds()<10?"0" + date.getSeconds():date.getSeconds());
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.MockManagerMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.MockManager" >
+    <constructor >
+      <arg column="manager_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="account" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="create_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="latest_visit_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="super_admin" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="unit_admin" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="unit_uid" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    manager_id, account, create_date, latest_visit_date, name, super_admin, unit_admin, unit_uid
+  </sql>
+
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.MockManager" >
+    insert into mock_manager (manager_id, account, create_date, super_admin,unit_admin,unit_uid
+      latest_visit_date, name, super_admin, 
+      unit_admin, unit_uid)
+    values (#{managerId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{latestVisitDate,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, #{superAdmin,jdbcType=BIT}, 
+      #{unitAdmin,jdbcType=BIT}, #{unitUid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.MockManager" >
+    insert into mock_manager
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="managerId != null" >
+        manager_id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="latestVisitDate != null" >
+        latest_visit_date,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="superAdmin != null" >
+        super_admin,
+      </if>
+      <if test="unitAdmin != null" >
+        unit_admin,
+      </if>
+      <if test="unitUid != null" >
+        unit_uid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="managerId != null" >
+        #{managerId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latestVisitDate != null" >
+        #{latestVisitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="superAdmin != null" >
+        #{superAdmin,jdbcType=BIT},
+      </if>
+      <if test="unitAdmin != null" >
+        #{unitAdmin,jdbcType=BIT},
+      </if>
+      <if test="unitUid != null" >
+        #{unitUid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.MockManager" >
+    update mock_manager
+    <set >
+      <if test="account != null" >
+        account=#{account},
+      </if>
+      <if test="createDate != null" >
+        create_date=#{createDate},
+      </if>
+      <if test="latestVisitDate != null" >
+        latest_visit_date=#{latestVisitDate},
+      </if>
+      <if test="name != null" >
+        name=#{name},
+      </if>
+      <if test="superAdmin != null" >
+        super_admin=#{superAdmin},
+      </if>
+      <if test="unitAdmin != null" >
+        unit_admin=#{unitAdmin},
+      </if>
+      <if test="unitUid != null" >
+        unit_uid=#{unitUid},
+      </if>
+    </set>
+    where manager_id = #{managerId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mock_manager
+    where manager_id = #{managerId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mock_manager
+    where account = #{account,jdbcType=VARCHAR}
+  </select>
+</mapper>

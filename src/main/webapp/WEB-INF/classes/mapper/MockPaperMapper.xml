@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.MockPaperMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.MockPaper" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="created_user" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updated_user" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="version" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="assessment_nature" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="duration" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="major_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="passMark" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="random_option_sort" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="random_question_sort" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="sumMark" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="title" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+    <association property="mockMajor" column="major_id" autoMapping="true"
+                 select="com.hxminco.mock.ioc.d.MockMajorMapper.selectByMajorId"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, created_time, created_user, updated_time, updated_user, version, assessment_nature, 
+    duration, major_id, passMark, random_option_sort, random_question_sort, status, sumMark, 
+    title
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mock_paper
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mock_paper
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.MockPaper" >
+    insert into mock_paper (id, created_time, created_user, 
+      updated_time, updated_user, version, 
+      assessment_nature, duration, major_id, 
+      passMark, random_option_sort, random_question_sort, 
+      status, sumMark, title
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{createdUser,jdbcType=VARCHAR}, 
+      #{updatedTime,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}, #{version,jdbcType=DOUBLE}, 
+      #{assessmentNature,jdbcType=INTEGER}, #{duration,jdbcType=INTEGER}, #{majorId,jdbcType=VARCHAR}, 
+      #{passmark,jdbcType=INTEGER}, #{randomOptionSort,jdbcType=BIT}, #{randomQuestionSort,jdbcType=BIT}, 
+      #{status,jdbcType=INTEGER}, #{summark,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.MockPaper" >
+    insert into mock_paper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUser != null" >
+        created_user,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="updatedUser != null" >
+        updated_user,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="assessmentNature != null" >
+        assessment_nature,
+      </if>
+      <if test="duration != null" >
+        duration,
+      </if>
+      <if test="majorId != null" >
+        major_id,
+      </if>
+      <if test="passmark != null" >
+        passMark,
+      </if>
+      <if test="randomOptionSort != null" >
+        random_option_sort,
+      </if>
+      <if test="randomQuestionSort != null" >
+        random_question_sort,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="summark != null" >
+        sumMark,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DOUBLE},
+      </if>
+      <if test="assessmentNature != null" >
+        #{assessmentNature,jdbcType=INTEGER},
+      </if>
+      <if test="duration != null" >
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="majorId != null" >
+        #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="passmark != null" >
+        #{passmark,jdbcType=INTEGER},
+      </if>
+      <if test="randomOptionSort != null" >
+        #{randomOptionSort,jdbcType=BIT},
+      </if>
+      <if test="randomQuestionSort != null" >
+        #{randomQuestionSort,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="summark != null" >
+        #{summark,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.MockPaper" >
+    update mock_paper
+    <set >
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        created_user = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        updated_user = #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=DOUBLE},
+      </if>
+      <if test="assessmentNature != null" >
+        assessment_nature = #{assessmentNature,jdbcType=INTEGER},
+      </if>
+      <if test="duration != null" >
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="majorId != null" >
+        major_id = #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="passmark != null" >
+        passMark = #{passmark,jdbcType=INTEGER},
+      </if>
+      <if test="randomOptionSort != null" >
+        random_option_sort = #{randomOptionSort,jdbcType=BIT},
+      </if>
+      <if test="randomQuestionSort != null" >
+        random_question_sort = #{randomQuestionSort,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="summark != null" >
+        sumMark = #{summark,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.MockPaper" >
+    update mock_paper
+    set created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR},
+      version = #{version,jdbcType=DOUBLE},
+      assessment_nature = #{assessmentNature,jdbcType=INTEGER},
+      duration = #{duration,jdbcType=INTEGER},
+      major_id = #{majorId,jdbcType=VARCHAR},
+      passMark = #{passmark,jdbcType=INTEGER},
+      random_option_sort = #{randomOptionSort,jdbcType=BIT},
+      random_question_sort = #{randomQuestionSort,jdbcType=BIT},
+      status = #{status,jdbcType=INTEGER},
+      sumMark = #{summark,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByMajorAndAssessmentNatureDoing" parameterType="map" resultMap="BaseResultMap">
+    select
+    mp.*
+    from mock_paper mp,mock_student_exam mse
+    where mp.id=mse.paper_id and
+    mp.major_id=#{majorId,} and
+    mp.assessment_nature=#{assessmentNature,jdbcType=VARCHAR} and
+    mse.student_id=#{studentId,jdbcType=VARCHAR} and
+    mse.exam_status=#{status,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectMajorAndAssessmentNatureUnexamedPaper" parameterType="map" resultMap="BaseResultMap">
+    select
+    mp.*
+    from mock_paper mp left join mock_student_exam mse
+    on mp.id=mse.paper_id and mse.student_id=#{studentId,jdbcType=VARCHAR}
+    where mse.exam_id is null and
+    mp.major_id=#{majorId,jdbcType=VARCHAR} and
+    mp.assessment_nature=#{assessmentNature,jdbcType=VARCHAR}
+
+  </select>
+
+  <insert id="insertMockPaperList" parameterType="map" >
+    insert into mock_paper (id, created_time, created_user,
+    updated_time, updated_user, version,
+    assessment_nature, duration, major_id,
+    passMark, random_option_sort, random_question_sort,
+    status, sumMark, title)
+    values
+    <foreach collection="paper" item="val" separator=",">
+      (#{val.id,jdbcType=VARCHAR}, (now()), #{val.createdUser,jdbcType=VARCHAR},
+      (now()), #{val.updatedUser,jdbcType=VARCHAR}, #{val.version,jdbcType=DOUBLE},
+      #{val.assessmentNature,jdbcType=INTEGER}, #{val.duration,jdbcType=INTEGER}, #{val.majorId,jdbcType=VARCHAR},
+      #{val.passmark,jdbcType=INTEGER}, #{val.randomOptionSort,jdbcType=BIT}, #{val.randomQuestionSort,jdbcType=BIT},
+      #{val.status,jdbcType=INTEGER}, #{val.summark,jdbcType=INTEGER}, #{val.title,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <select id="selectByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mock_paper
+    <where>
+      <if test="majorId != null" >
+        and
+        major_id=#{majorId}
+      </if>
+      <if test="assessmentNature != null" >
+        and
+        assessment_nature=#{assessmentNature}
+      </if>
+    </where>
+    limit #{start},#{limit}
+  </select>
+
+  <select id="selectCountByParam4Page" parameterType="map" resultType="int">
+    select count(id)
+    from mock_paper
+    <where>
+      <if test="majorId != null" >
+        and
+        major_id=#{majorId}
+      </if>
+      <if test="assessmentNature != null" >
+        and
+        assessment_nature=#{assessmentNature}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPaperId" parameterType="java.lang.String" >
+    delete from mock_paper
+    where id = #{paperId}
+  </delete>
+</mapper>

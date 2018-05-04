@@ -1,0 +1,17 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${getString("server.mock.title")}</title>
+<link rel="stylesheet" href="${path}/res/js/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="${path}/res/js/bootstrap-table/bootstrap-table.min.css">
+<link rel="stylesheet" href="${path}/res/css/theme.css">
+<link rel="stylesheet" href="${path}/res/css/base.css">
+<link rel="stylesheet" href="${path}/res/css/style.css">
+<script src="${path}/res/js/jquery/jquery-1.11.3.min.js"></script>
+<script src="${path}/res/js/jquery/jquery.json.min.js"></script>
+<script src="${path}/res/js/bootstrap/js/bootstrap.min.js"></script>
+<script src="${path}/res/js/bootstrap-table/bootstrap-table.js"></script>
+<script src="${path}/res/js/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+

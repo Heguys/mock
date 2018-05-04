@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.UnionpayZmDataMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.UnionpayZmData" >
+    <constructor >
+      <idArg column="uid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="trade_code" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="acq_ins_code" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="send_ins_code" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="trace_no" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="txn_time" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pay_card_no" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="txn_amt" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="mer_cat_code" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="term_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="query_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="old_pay_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="order_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pay_card_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="orig_trace_no" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="orig_txn_time" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="merchant_handling_fee" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="settlement_amount" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pay_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="group_mer_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="txn_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="txn_sub_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="biz_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="acc_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="bill_type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="bill_no" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="interact_mode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="orig_qry_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="mer_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="status" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="create_time" jdbcType="BIGINT" javaType="java.lang.Long" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    uid, trade_code, acq_ins_code, send_ins_code, trace_no, txn_time, pay_card_no, txn_amt, 
+    mer_cat_code, term_type, query_id, old_pay_type, order_id, pay_card_type, orig_trace_no, 
+    orig_txn_time, merchant_handling_fee, settlement_amount, pay_type, group_mer_id, 
+    txn_type, txn_sub_type, biz_type, acc_type, bill_type, bill_no, interact_mode, orig_qry_id, 
+    mer_id, status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from unionpay_zm_data
+    where uid = #{uid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from unionpay_zm_data
+    where uid = #{uid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.UnionpayZmData" >
+    insert into unionpay_zm_data (uid, trade_code, acq_ins_code, 
+      send_ins_code, trace_no, txn_time, 
+      pay_card_no, txn_amt, mer_cat_code, 
+      term_type, query_id, old_pay_type, 
+      order_id, pay_card_type, orig_trace_no, 
+      orig_txn_time, merchant_handling_fee, settlement_amount, 
+      pay_type, group_mer_id, txn_type, 
+      txn_sub_type, biz_type, acc_type, 
+      bill_type, bill_no, interact_mode, 
+      orig_qry_id, mer_id, status, 
+      create_time)
+    values (#{uid,jdbcType=VARCHAR}, #{tradeCode,jdbcType=VARCHAR}, #{acqInsCode,jdbcType=VARCHAR}, 
+      #{sendInsCode,jdbcType=VARCHAR}, #{traceNo,jdbcType=VARCHAR}, #{txnTime,jdbcType=VARCHAR}, 
+      #{payCardNo,jdbcType=VARCHAR}, #{txnAmt,jdbcType=VARCHAR}, #{merCatCode,jdbcType=VARCHAR}, 
+      #{termType,jdbcType=VARCHAR}, #{queryId,jdbcType=VARCHAR}, #{oldPayType,jdbcType=VARCHAR}, 
+      #{orderId,jdbcType=VARCHAR}, #{payCardType,jdbcType=VARCHAR}, #{origTraceNo,jdbcType=VARCHAR}, 
+      #{origTxnTime,jdbcType=VARCHAR}, #{merchantHandlingFee,jdbcType=VARCHAR}, #{settlementAmount,jdbcType=VARCHAR}, 
+      #{payType,jdbcType=VARCHAR}, #{groupMerId,jdbcType=VARCHAR}, #{txnType,jdbcType=VARCHAR}, 
+      #{txnSubType,jdbcType=VARCHAR}, #{bizType,jdbcType=VARCHAR}, #{accType,jdbcType=VARCHAR}, 
+      #{billType,jdbcType=VARCHAR}, #{billNo,jdbcType=VARCHAR}, #{interactMode,jdbcType=VARCHAR}, 
+      #{origQryId,jdbcType=VARCHAR}, #{merId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.UnionpayZmData" >
+    insert into unionpay_zm_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="tradeCode != null" >
+        trade_code,
+      </if>
+      <if test="acqInsCode != null" >
+        acq_ins_code,
+      </if>
+      <if test="sendInsCode != null" >
+        send_ins_code,
+      </if>
+      <if test="traceNo != null" >
+        trace_no,
+      </if>
+      <if test="txnTime != null" >
+        txn_time,
+      </if>
+      <if test="payCardNo != null" >
+        pay_card_no,
+      </if>
+      <if test="txnAmt != null" >
+        txn_amt,
+      </if>
+      <if test="merCatCode != null" >
+        mer_cat_code,
+      </if>
+      <if test="termType != null" >
+        term_type,
+      </if>
+      <if test="queryId != null" >
+        query_id,
+      </if>
+      <if test="oldPayType != null" >
+        old_pay_type,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="payCardType != null" >
+        pay_card_type,
+      </if>
+      <if test="origTraceNo != null" >
+        orig_trace_no,
+      </if>
+      <if test="origTxnTime != null" >
+        orig_txn_time,
+      </if>
+      <if test="merchantHandlingFee != null" >
+        merchant_handling_fee,
+      </if>
+      <if test="settlementAmount != null" >
+        settlement_amount,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="groupMerId != null" >
+        group_mer_id,
+      </if>
+      <if test="txnType != null" >
+        txn_type,
+      </if>
+      <if test="txnSubType != null" >
+        txn_sub_type,
+      </if>
+      <if test="bizType != null" >
+        biz_type,
+      </if>
+      <if test="accType != null" >
+        acc_type,
+      </if>
+      <if test="billType != null" >
+        bill_type,
+      </if>
+      <if test="billNo != null" >
+        bill_no,
+      </if>
+      <if test="interactMode != null" >
+        interact_mode,
+      </if>
+      <if test="origQryId != null" >
+        orig_qry_id,
+      </if>
+      <if test="merId != null" >
+        mer_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeCode != null" >
+        #{tradeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="acqInsCode != null" >
+        #{acqInsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendInsCode != null" >
+        #{sendInsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="traceNo != null" >
+        #{traceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="txnTime != null" >
+        #{txnTime,jdbcType=VARCHAR},
+      </if>
+      <if test="payCardNo != null" >
+        #{payCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="txnAmt != null" >
+        #{txnAmt,jdbcType=VARCHAR},
+      </if>
+      <if test="merCatCode != null" >
+        #{merCatCode,jdbcType=VARCHAR},
+      </if>
+      <if test="termType != null" >
+        #{termType,jdbcType=VARCHAR},
+      </if>
+      <if test="queryId != null" >
+        #{queryId,jdbcType=VARCHAR},
+      </if>
+      <if test="oldPayType != null" >
+        #{oldPayType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="payCardType != null" >
+        #{payCardType,jdbcType=VARCHAR},
+      </if>
+      <if test="origTraceNo != null" >
+        #{origTraceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="origTxnTime != null" >
+        #{origTxnTime,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantHandlingFee != null" >
+        #{merchantHandlingFee,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementAmount != null" >
+        #{settlementAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="groupMerId != null" >
+        #{groupMerId,jdbcType=VARCHAR},
+      </if>
+      <if test="txnType != null" >
+        #{txnType,jdbcType=VARCHAR},
+      </if>
+      <if test="txnSubType != null" >
+        #{txnSubType,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="accType != null" >
+        #{accType,jdbcType=VARCHAR},
+      </if>
+      <if test="billType != null" >
+        #{billType,jdbcType=VARCHAR},
+      </if>
+      <if test="billNo != null" >
+        #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="interactMode != null" >
+        #{interactMode,jdbcType=VARCHAR},
+      </if>
+      <if test="origQryId != null" >
+        #{origQryId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null" >
+        #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.UnionpayZmData" >
+    update unionpay_zm_data
+    <set >
+      <if test="tradeCode != null" >
+        trade_code = #{tradeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="acqInsCode != null" >
+        acq_ins_code = #{acqInsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sendInsCode != null" >
+        send_ins_code = #{sendInsCode,jdbcType=VARCHAR},
+      </if>
+      <if test="traceNo != null" >
+        trace_no = #{traceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="txnTime != null" >
+        txn_time = #{txnTime,jdbcType=VARCHAR},
+      </if>
+      <if test="payCardNo != null" >
+        pay_card_no = #{payCardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="txnAmt != null" >
+        txn_amt = #{txnAmt,jdbcType=VARCHAR},
+      </if>
+      <if test="merCatCode != null" >
+        mer_cat_code = #{merCatCode,jdbcType=VARCHAR},
+      </if>
+      <if test="termType != null" >
+        term_type = #{termType,jdbcType=VARCHAR},
+      </if>
+      <if test="queryId != null" >
+        query_id = #{queryId,jdbcType=VARCHAR},
+      </if>
+      <if test="oldPayType != null" >
+        old_pay_type = #{oldPayType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="payCardType != null" >
+        pay_card_type = #{payCardType,jdbcType=VARCHAR},
+      </if>
+      <if test="origTraceNo != null" >
+        orig_trace_no = #{origTraceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="origTxnTime != null" >
+        orig_txn_time = #{origTxnTime,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantHandlingFee != null" >
+        merchant_handling_fee = #{merchantHandlingFee,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementAmount != null" >
+        settlement_amount = #{settlementAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="groupMerId != null" >
+        group_mer_id = #{groupMerId,jdbcType=VARCHAR},
+      </if>
+      <if test="txnType != null" >
+        txn_type = #{txnType,jdbcType=VARCHAR},
+      </if>
+      <if test="txnSubType != null" >
+        txn_sub_type = #{txnSubType,jdbcType=VARCHAR},
+      </if>
+      <if test="bizType != null" >
+        biz_type = #{bizType,jdbcType=VARCHAR},
+      </if>
+      <if test="accType != null" >
+        acc_type = #{accType,jdbcType=VARCHAR},
+      </if>
+      <if test="billType != null" >
+        bill_type = #{billType,jdbcType=VARCHAR},
+      </if>
+      <if test="billNo != null" >
+        bill_no = #{billNo,jdbcType=VARCHAR},
+      </if>
+      <if test="interactMode != null" >
+        interact_mode = #{interactMode,jdbcType=VARCHAR},
+      </if>
+      <if test="origQryId != null" >
+        orig_qry_id = #{origQryId,jdbcType=VARCHAR},
+      </if>
+      <if test="merId != null" >
+        mer_id = #{merId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.UnionpayZmData" >
+    update unionpay_zm_data
+    set trade_code = #{tradeCode,jdbcType=VARCHAR},
+      acq_ins_code = #{acqInsCode,jdbcType=VARCHAR},
+      send_ins_code = #{sendInsCode,jdbcType=VARCHAR},
+      trace_no = #{traceNo,jdbcType=VARCHAR},
+      txn_time = #{txnTime,jdbcType=VARCHAR},
+      pay_card_no = #{payCardNo,jdbcType=VARCHAR},
+      txn_amt = #{txnAmt,jdbcType=VARCHAR},
+      mer_cat_code = #{merCatCode,jdbcType=VARCHAR},
+      term_type = #{termType,jdbcType=VARCHAR},
+      query_id = #{queryId,jdbcType=VARCHAR},
+      old_pay_type = #{oldPayType,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      pay_card_type = #{payCardType,jdbcType=VARCHAR},
+      orig_trace_no = #{origTraceNo,jdbcType=VARCHAR},
+      orig_txn_time = #{origTxnTime,jdbcType=VARCHAR},
+      merchant_handling_fee = #{merchantHandlingFee,jdbcType=VARCHAR},
+      settlement_amount = #{settlementAmount,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=VARCHAR},
+      group_mer_id = #{groupMerId,jdbcType=VARCHAR},
+      txn_type = #{txnType,jdbcType=VARCHAR},
+      txn_sub_type = #{txnSubType,jdbcType=VARCHAR},
+      biz_type = #{bizType,jdbcType=VARCHAR},
+      acc_type = #{accType,jdbcType=VARCHAR},
+      bill_type = #{billType,jdbcType=VARCHAR},
+      bill_no = #{billNo,jdbcType=VARCHAR},
+      interact_mode = #{interactMode,jdbcType=VARCHAR},
+      orig_qry_id = #{origQryId,jdbcType=VARCHAR},
+      mer_id = #{merId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT}
+    where uid = #{uid,jdbcType=VARCHAR}
+  </update>
+</mapper>

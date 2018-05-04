@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.MockMajorMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.MockMajor" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="created_user" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updated_user" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="version" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="assign_code1" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="assign_code2" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="assign_code3" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="children_label" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="global_major" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="major_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="parent_major_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sort" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="major_id_path" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, created_time, created_user, updated_time, updated_user, version, assign_code1, 
+    assign_code2, assign_code3, children_label, global_major, major_id, name, parent_major_id, 
+    sort, major_id_path
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mock_major
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mock_major
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.MockMajor" >
+    insert into mock_major (id, created_time, created_user, 
+      updated_time, updated_user, version, 
+      assign_code1, assign_code2, assign_code3, 
+      children_label, global_major, major_id, 
+      name, parent_major_id, sort, 
+      major_id_path)
+    values (#{id,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{createdUser,jdbcType=VARCHAR}, 
+      #{updatedTime,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}, #{version,jdbcType=DOUBLE}, 
+      #{assignCode1,jdbcType=INTEGER}, #{assignCode2,jdbcType=INTEGER}, #{assignCode3,jdbcType=INTEGER}, 
+      #{childrenLabel,jdbcType=VARCHAR}, #{globalMajor,jdbcType=BIT}, #{majorId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{parentMajorId,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{majorIdPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.MockMajor" >
+    insert into mock_major
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUser != null" >
+        created_user,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="updatedUser != null" >
+        updated_user,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="assignCode1 != null" >
+        assign_code1,
+      </if>
+      <if test="assignCode2 != null" >
+        assign_code2,
+      </if>
+      <if test="assignCode3 != null" >
+        assign_code3,
+      </if>
+      <if test="childrenLabel != null" >
+        children_label,
+      </if>
+      <if test="globalMajor != null" >
+        global_major,
+      </if>
+      <if test="majorId != null" >
+        major_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="parentMajorId != null" >
+        parent_major_id,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="majorIdPath != null" >
+        major_id_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DOUBLE},
+      </if>
+      <if test="assignCode1 != null" >
+        #{assignCode1,jdbcType=INTEGER},
+      </if>
+      <if test="assignCode2 != null" >
+        #{assignCode2,jdbcType=INTEGER},
+      </if>
+      <if test="assignCode3 != null" >
+        #{assignCode3,jdbcType=INTEGER},
+      </if>
+      <if test="childrenLabel != null" >
+        #{childrenLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="globalMajor != null" >
+        #{globalMajor,jdbcType=BIT},
+      </if>
+      <if test="majorId != null" >
+        #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentMajorId != null" >
+        #{parentMajorId,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="majorIdPath != null" >
+        #{majorIdPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.MockMajor" >
+    update mock_major
+    <set >
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        created_user = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        updated_user = #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=DOUBLE},
+      </if>
+      <if test="assignCode1 != null" >
+        assign_code1 = #{assignCode1,jdbcType=INTEGER},
+      </if>
+      <if test="assignCode2 != null" >
+        assign_code2 = #{assignCode2,jdbcType=INTEGER},
+      </if>
+      <if test="assignCode3 != null" >
+        assign_code3 = #{assignCode3,jdbcType=INTEGER},
+      </if>
+      <if test="childrenLabel != null" >
+        children_label = #{childrenLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="globalMajor != null" >
+        global_major = #{globalMajor,jdbcType=BIT},
+      </if>
+      <if test="majorId != null" >
+        major_id = #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentMajorId != null" >
+        parent_major_id = #{parentMajorId,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="majorIdPath != null" >
+        major_id_path = #{majorIdPath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.MockMajor" >
+    update mock_major
+    set created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR},
+      version = #{version,jdbcType=DOUBLE},
+      assign_code1 = #{assignCode1,jdbcType=INTEGER},
+      assign_code2 = #{assignCode2,jdbcType=INTEGER},
+      assign_code3 = #{assignCode3,jdbcType=INTEGER},
+      children_label = #{childrenLabel,jdbcType=VARCHAR},
+      global_major = #{globalMajor,jdbcType=BIT},
+      major_id = #{majorId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      parent_major_id = #{parentMajorId,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      major_id_path = #{majorIdPath,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByParentId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from mock_major
+    <where>
+      <choose>
+        <when test="value != null">
+          parent_major_id = #{value,jdbcType=VARCHAR}
+        </when>
+        <otherwise>
+          parent_major_id = null or parent_major_id = ''
+        </otherwise>
+      </choose>
+    </where>
+  </select>
+
+
+  <select id="selectByMajorId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from mock_major
+    where major_id = #{majorId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectAllMajor" resultType="com.hxminco.mock.comm.entry.MockMajor">
+    select
+    mm.assign_code1 as assignCode1,
+    mm.major_id as majorId,
+    mm.name
+    from
+    mock_question mq,mock_major mm
+    where
+    mq.major_id=mm.major_id and mm.assign_code1=#{assignCode1}
+    GROUP BY
+    majorId
+  </select>
+
+  <select id="selectByParentMajorIdAndName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mock_major
+    where parent_major_id=#{parentMajorId} and name=#{name}
+  </select>
+
+  <select id="selectByQualificationTypeCodeAndWorkClassCodeAndWorkItemCode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mock_major
+    where assign_code1=#{qualificationTypeCode} and
+    assign_code2=#{workClassCode} and
+    assign_code3=#{workItemCode}
+  </select>
+
+  <select id="selectByQualificationTypeCodeAndEvidenceTypeCodeAndUnitTypeCode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mock_major
+    where assign_code1=#{qualificationTypeCode} and
+    assign_code2=#{evidenceTypeCode} and
+    assign_code3=#{unitTypeCode}
+  </select>
+</mapper>

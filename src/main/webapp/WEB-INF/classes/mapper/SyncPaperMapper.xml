@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.SyncPaperMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.SyncPaper" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="planId" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="planName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="majorId" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="assessmentNature" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="duration" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="sumMark" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="passMark" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="createDate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="paperNums" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, planId, planName, majorId, assessmentNature, duration, sumMark, passMark, status, 
+    createDate, paperNums
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from qb_history_paper
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from qb_history_paper
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.SyncPaper" >
+    insert into qb_history_paper (id, planId, planName, 
+      majorId, assessmentNature, duration, 
+      sumMark, passMark, status, 
+      createDate, paperNums)
+    values (#{id,jdbcType=VARCHAR}, #{planId,jdbcType=VARCHAR}, #{planName,jdbcType=VARCHAR}, 
+      #{majorId,jdbcType=VARCHAR}, #{assessmentNature,jdbcType=INTEGER}, #{duration,jdbcType=INTEGER}, 
+      #{sumMark,jdbcType=INTEGER}, #{passMark,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{paperNums,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.SyncPaper" >
+    insert into qb_history_paper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="planId != null" >
+        planId,
+      </if>
+      <if test="planName != null" >
+        planName,
+      </if>
+      <if test="majorId != null" >
+        majorId,
+      </if>
+      <if test="assessmentNature != null" >
+        assessmentNature,
+      </if>
+      <if test="duration != null" >
+        duration,
+      </if>
+      <if test="sumMark != null" >
+        sumMark,
+      </if>
+      <if test="passMark != null" >
+        passMark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createDate != null" >
+        createDate,
+      </if>
+      <if test="paperNums != null" >
+        paperNums,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="planId != null" >
+        #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="planName != null" >
+        #{planName,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null" >
+        #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="assessmentNature != null" >
+        #{assessmentNature,jdbcType=INTEGER},
+      </if>
+      <if test="duration != null" >
+        #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="sumMark != null" >
+        #{sumMark,jdbcType=INTEGER},
+      </if>
+      <if test="passMark != null" >
+        #{passMark,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paperNums != null" >
+        #{paperNums,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.SyncPaper" >
+    update qb_history_paper
+    <set >
+      <if test="planId != null" >
+        planId = #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="planName != null" >
+        planName = #{planName,jdbcType=VARCHAR},
+      </if>
+      <if test="majorId != null" >
+        majorId = #{majorId,jdbcType=VARCHAR},
+      </if>
+      <if test="assessmentNature != null" >
+        assessmentNature = #{assessmentNature,jdbcType=INTEGER},
+      </if>
+      <if test="duration != null" >
+        duration = #{duration,jdbcType=INTEGER},
+      </if>
+      <if test="sumMark != null" >
+        sumMark = #{sumMark,jdbcType=INTEGER},
+      </if>
+      <if test="passMark != null" >
+        passMark = #{passMark,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paperNums != null" >
+        paperNums = #{paperNums,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.SyncPaper" >
+    update qb_history_paper
+    set planId = #{planId,jdbcType=VARCHAR},
+      planName = #{planName,jdbcType=VARCHAR},
+      majorId = #{majorId,jdbcType=VARCHAR},
+      assessmentNature = #{assessmentNature,jdbcType=INTEGER},
+      duration = #{duration,jdbcType=INTEGER},
+      sumMark = #{sumMark,jdbcType=INTEGER},
+      passMark = #{passMark,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      paperNums = #{paperNums,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from qb_history_paper
+  </select>
+
+  <select id="selectPaperListByParams" parameterType="map" resultType="com.hxminco.mock.comm.entry.MockPaper">
+    select
+    qhp.id ,
+    qhp.majorId ,
+    qhp.assessmentNature ,
+    qhp.duration  ,
+    qhp.sumMark,
+    qhp.passMark ,
+    qhp.status ,
+    'admin' as createdUser,
+    'admin' as updatedUser,
+    '1' as version,
+    '0' as randomOptionSort,
+    '0' as randomQuestionSort,
+    qhp.planName as title,
+    qhq.paperOrder as paperOrder
+    from qb_history_paper qhp,qb_history_question qhq
+    <where>
+      qhp.id=qhq.paperId and qhq.sort = 1
+      <if test="majorId != null" >
+        and majorId =#{majorId}
+      </if>
+      <if test="createDate != null" >
+        and createDate &gt; #{createDate}
+      </if>
+      <if test="assessmentNature != null" >
+        and assessmentNature=#{assessmentNature}
+      </if>
+    </where>
+    order by qhp.id,createDate
+  </select>
+</mapper>

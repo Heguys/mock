@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.MockStudentMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.MockStudent" >
+    <constructor >
+      <idArg column="student_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="account" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="available_mocks" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="completed_mocks" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="latest_mock_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="latest_purchase_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="latest_visit_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="total_mocks" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    student_id, account, available_mocks, completed_mocks, create_date, latest_mock_date, 
+    latest_purchase_date, latest_visit_date, name, total_mocks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mock_student
+    where student_id = #{studentId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mock_student
+    where student_id = #{studentId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.MockStudent" >
+    insert into mock_student (student_id, account, available_mocks, 
+      completed_mocks, create_date, latest_mock_date, 
+      latest_purchase_date, latest_visit_date, 
+      name, total_mocks)
+    values (#{studentId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, #{availableMocks,jdbcType=INTEGER}, 
+      #{completedMocks,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{latestMockDate,jdbcType=TIMESTAMP}, 
+      #{latestPurchaseDate,jdbcType=TIMESTAMP}, #{latestVisitDate,jdbcType=TIMESTAMP}, 
+      #{name,jdbcType=VARCHAR}, #{totalMocks,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.MockStudent" >
+    insert into mock_student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="studentId != null" >
+        student_id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="availableMocks != null" >
+        available_mocks,
+      </if>
+      <if test="completedMocks != null" >
+        completed_mocks,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="latestMockDate != null" >
+        latest_mock_date,
+      </if>
+      <if test="latestPurchaseDate != null" >
+        latest_purchase_date,
+      </if>
+      <if test="latestVisitDate != null" >
+        latest_visit_date,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="totalMocks != null" >
+        total_mocks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="studentId != null" >
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="availableMocks != null" >
+        #{availableMocks,jdbcType=INTEGER},
+      </if>
+      <if test="completedMocks != null" >
+        #{completedMocks,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latestMockDate != null" >
+        #{latestMockDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latestPurchaseDate != null" >
+        #{latestPurchaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latestVisitDate != null" >
+        #{latestVisitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="totalMocks != null" >
+        #{totalMocks,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.MockStudent" >
+    update mock_student
+    <set >
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="availableMocks != null" >
+        available_mocks = #{availableMocks,jdbcType=INTEGER},
+      </if>
+      <if test="completedMocks != null" >
+        completed_mocks = #{completedMocks,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latestMockDate != null" >
+        latest_mock_date = #{latestMockDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latestPurchaseDate != null" >
+        latest_purchase_date = #{latestPurchaseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latestVisitDate != null" >
+        latest_visit_date = #{latestVisitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="totalMocks != null" >
+        total_mocks = #{totalMocks,jdbcType=INTEGER},
+      </if>
+    </set>
+    where student_id = #{studentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.MockStudent" >
+    update mock_student
+    set account = #{account,jdbcType=VARCHAR},
+      available_mocks = #{availableMocks,jdbcType=INTEGER},
+      completed_mocks = #{completedMocks,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      latest_mock_date = #{latestMockDate,jdbcType=TIMESTAMP},
+      latest_purchase_date = #{latestPurchaseDate,jdbcType=TIMESTAMP},
+      latest_visit_date = #{latestVisitDate,jdbcType=TIMESTAMP},
+      name = #{name,jdbcType=VARCHAR},
+      total_mocks = #{totalMocks,jdbcType=INTEGER}
+    where student_id = #{studentId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mock_student
+    where account = #{account,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByParams4Page" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mock_student
+    limit #{start},#{limit}
+  </select>
+  <select id="selectCountByParam4Page" parameterType="map" resultType="int">
+    select count(student_id)
+    from mock_student
+  </select>
+</mapper>

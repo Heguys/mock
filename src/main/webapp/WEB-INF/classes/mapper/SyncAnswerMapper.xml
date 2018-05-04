@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.SyncAnswerMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.SyncAnswer" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="questionId" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="isValid" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, description, questionId, isValid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from qb_history_answer
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from qb_history_answer
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.SyncAnswer" >
+    insert into qb_history_answer (id, description, questionId, 
+      isValid)
+    values (#{id,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{questionId,jdbcType=VARCHAR}, 
+      #{isValid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.SyncAnswer" >
+    insert into qb_history_answer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="questionId != null" >
+        questionId,
+      </if>
+      <if test="isValid != null" >
+        isValid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.SyncAnswer" >
+    update qb_history_answer
+    <set >
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        questionId = #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null" >
+        isValid = #{isValid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.SyncAnswer" >
+    update qb_history_answer
+    set description = #{description,jdbcType=VARCHAR},
+      questionId = #{questionId,jdbcType=VARCHAR},
+      isValid = #{isValid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByQuestionIdAndIsValid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from qb_history_answer
+    where questionId = #{questionId,jdbcType=VARCHAR} and
+    isValid = #{isValid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByQuestionId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from qb_history_answer
+    where questionId = #{questionId,jdbcType=VARCHAR}
+  </select>
+</mapper>

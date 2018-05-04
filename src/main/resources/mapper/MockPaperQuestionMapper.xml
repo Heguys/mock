@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hxminco.mock.ioc.d.MockPaperQuestionMapper" >
+  <resultMap id="BaseResultMap" type="com.hxminco.mock.comm.entry.MockPaperQuestion" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="created_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="created_user" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="updated_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="updated_user" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="version" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="score" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="sort_index" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="paper_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="question_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+    <association property="mockQuestion" column="question_id" autoMapping="true"
+                 select="com.hxminco.mock.ioc.d.MockQuestionMapper.selectByPrimaryKey"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, created_time, created_user, updated_time, updated_user, version, score, sort_index, 
+    paper_id, question_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mock_paper_question
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mock_paper_question
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hxminco.mock.comm.entry.MockPaperQuestion" >
+    insert into mock_paper_question (id, created_time, created_user, 
+      updated_time, updated_user, version, 
+      score, sort_index, paper_id, 
+      question_id)
+    values (#{id,jdbcType=VARCHAR}, #{createdTime,jdbcType=TIMESTAMP}, #{createdUser,jdbcType=VARCHAR}, 
+      #{updatedTime,jdbcType=TIMESTAMP}, #{updatedUser,jdbcType=VARCHAR}, #{version,jdbcType=DOUBLE}, 
+      #{score,jdbcType=DOUBLE}, #{sortIndex,jdbcType=INTEGER}, #{paperId,jdbcType=VARCHAR}, 
+      #{questionId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hxminco.mock.comm.entry.MockPaperQuestion" >
+    insert into mock_paper_question
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createdTime != null" >
+        created_time,
+      </if>
+      <if test="createdUser != null" >
+        created_user,
+      </if>
+      <if test="updatedTime != null" >
+        updated_time,
+      </if>
+      <if test="updatedUser != null" >
+        updated_user,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="sortIndex != null" >
+        sort_index,
+      </if>
+      <if test="paperId != null" >
+        paper_id,
+      </if>
+      <if test="questionId != null" >
+        question_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=DOUBLE},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="sortIndex != null" >
+        #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="paperId != null" >
+        #{paperId,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        #{questionId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hxminco.mock.comm.entry.MockPaperQuestion" >
+    update mock_paper_question
+    <set >
+      <if test="createdTime != null" >
+        created_time = #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null" >
+        created_user = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedTime != null" >
+        updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedUser != null" >
+        updated_user = #{updatedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=DOUBLE},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=DOUBLE},
+      </if>
+      <if test="sortIndex != null" >
+        sort_index = #{sortIndex,jdbcType=INTEGER},
+      </if>
+      <if test="paperId != null" >
+        paper_id = #{paperId,jdbcType=VARCHAR},
+      </if>
+      <if test="questionId != null" >
+        question_id = #{questionId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hxminco.mock.comm.entry.MockPaperQuestion" >
+    update mock_paper_question
+    set created_time = #{createdTime,jdbcType=TIMESTAMP},
+      created_user = #{createdUser,jdbcType=VARCHAR},
+      updated_time = #{updatedTime,jdbcType=TIMESTAMP},
+      updated_user = #{updatedUser,jdbcType=VARCHAR},
+      version = #{version,jdbcType=DOUBLE},
+      score = #{score,jdbcType=DOUBLE},
+      sort_index = #{sortIndex,jdbcType=INTEGER},
+      paper_id = #{paperId,jdbcType=VARCHAR},
+      question_id = #{questionId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectListByPaperId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    from mock_paper_question
+    where paper_id=#{paperId,jdbcType=VARCHAR}
+    order by sort_index asc
+  </select>
+
+  <select id="selectByPaperIdAndQuestionId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from mock_paper_question
+    where paper_id = #{paperId,jdbcType=VARCHAR} and
+    question_id=#{questionId,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="insertMockPaperQuestionList" parameterType="map" >
+    insert into mock_paper_question (id, created_time, created_user,
+    updated_time, updated_user, version,score, sort_index, paper_id,question_id)
+    values
+    <foreach collection="paperQuestion" item="val" separator=",">
+      (#{val.id,jdbcType=VARCHAR}, (now()), #{val.createdUser,jdbcType=VARCHAR},
+      (now()), #{val.updatedUser,jdbcType=VARCHAR}, #{val.version,jdbcType=DOUBLE},
+      #{val.score,jdbcType=DOUBLE}, #{val.sortIndex,jdbcType=INTEGER}, #{val.paperId,jdbcType=VARCHAR},
+      #{val.questionId,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+  <delete id="deleteByPaperId" parameterType="java.lang.String" >
+    delete from mock_paper_question
+    where paper_id=#{paperId}
+  </delete>
+</mapper>

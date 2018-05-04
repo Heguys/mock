@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--#set(path = request.contextPath)-->
+    <!--#set(net.bnusei.model.UserBaseInfo userBaseInfo = session.getAttribute("net.bnusei.model.UserBaseInfo-manager"))-->
+    <!--${include("../head_table.httl")}-->
+</head>
+<body style="background-color: #fff">
+<div class="header">
+    <div class="title-div">
+        <ul class="titleClass">
+            <li><a class="active" href="${path}/manager/student/list.html">学生管理</a></li>
+            <li><a href="${path}/migrate/toMigratePage.html">试题导入</a></li>
+            <li><a href="${path}/manager/paper/list.html">试题管理</a></li>
+        </ul>
+    </div>
+    <div class="headerTXT">
+        <div class="newTime">
+            <div class="timeTXT"></div>&emsp;&emsp;
+            <div class="welcome">你好,${userBaseInfo.name}</div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 6%">
+    <p style="font-size: 20px; color: #317eac;margin: 10px 20px;">请选择一个考核对象:</p>
+</div>
+<div style="margin-top: auto">
+    <form class="form-horizontal">
+        <div class="col-xs-4 form-group">
+            <div class="row">
+                <div class="form-group ">
+                    <label for="select0" class="col-xs-4 control-label"></label>
+
+                    <div class="col-xs-8">
+                        <select class="form-control" id="select0" name="select0"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 form-group">
+            <div class="row">
+                <div class="form-group ">
+                    <label for="select1" class="col-xs-4 control-label"></label>
+
+                    <div class="col-xs-8">
+                        <select class="form-control" id="select1" name="select1"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 form-group">
+            <div class="row">
+                <div class="form-group ">
+                    <label for="select2" class="col-xs-4 control-label"></label>
+
+                    <div class="col-xs-8">
+                        <select class="form-control" id="select2" name="select2"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 form-group">
+            <div class="row">
+                <div class="form-group ">
+                    <label for="selectAssessment" class="col-xs-4 control-label">考试类别</label>
+
+                    <div class="col-xs-8">
+                        <select class="form-control" id="selectAssessment" name="selectAssessment">
+                            <option value="1">${"PaperRule.assessmentFirst".message}</option>
+                            <option value="2">${"PaperRule.assessmentAgain".message}</option>
+                            <option value="3">${"PaperRule.assessmentChange".message}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-4 form-group">
+            <div class="row">
+                <div class="form-group ">
+                    <button type="button" class="btn btn-primary getPaperBtn" onclick="getPaperList()">试题查询</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<!--成功提示模态框-->
+<div class="mask">
+    <div class="hintMod">
+        <div class="modHead hintModHead">成功提示</div>
+        <i></i>
+        <div class="modCont">
+            你选择的考试计划已上传成功~
+        </div>
+    </div>
+</div>
+
+<!--通用确认弹出框-->
+<div class="confMask">
+    <div class="confMod">
+        <div class="confTop clearfix">
+            <div class="leftConf fl"><i></i>确认提示</div>
+            <button class="confCloseBtn fr"></button>
+        </div>
+        <div class="confCont"></div>
+        <div class="confTwoBtn">
+            <button class="confBtn">确定</button>
+            <button class="cancelBtn">取消</button>
+        </div>
+    </div>
+</div>
+<div style="display: none">
+    <button id="deletePapers" type="button" class="btn btn-primary">批量删除</button>
+</div>
+
+<div style="background-color:#fff;margin:7% 10% 0 ;width:80%;">
+    <table class="table table-hover" id="table"></table>
+</div>
+<script src="${path}/res/js/mock/common.js"></script>
+<script>
+
+    $(function () {
+        var data = {}
+
+        function loadOptions(n, pId, clabel) {
+            if (clabel) {
+                $('label[for=select' + n + ']').text(clabel + ':');
+            } else {
+                $('label[for=select' + n + ']').text('');
+            }
+            var select = $('#select' + n);
+            if (0 < select.length) {
+                $.getJSON('${path}/mockmajor/getListByPid.ajax', {pId: pId}, function (json) {
+                    select.empty();
+                    $.each(json, function (i, data) {
+                        select.append($('<option>').val(data.majorId).text(data.name).attr('clabel', data.childrenLabel));
+                    });
+                    var op = select.children('option:selected');
+                    loadOptions(n + 1, op.val(), op.attr('clabel'));
+                    select.focus();
+                });
+            } else {
+                var majorId = $('#select2 option:selected').val();
+                if (majorId == undefined || majorId == '') {
+                    majorId = $('#select1 option:selected').val();
+                }
+                var dataPaperRule = {}
+                var selectAssessment = $('#selectAssessment option:selected').val();
+                dataPaperRule["majorId"] = majorId;
+                dataPaperRule["assessmentNature"] = selectAssessment;
+                $.ajax({
+                    url: "getPaperRule.ajax",
+                    type: 'POST',
+                    data: dataPaperRule,
+                    success: function (data) {
+                        if (data != "") {
+                            $('#selectAssessment').val(data.assessmentNature);
+                            $('#paperType').val(data.paperType);
+                            $('#duration').val(data.duration);
+                            $('#passMark').val(data.passMark);
+                            $('#sumMark').val(data.sumMark);
+                            $('#paperRuleId').val(data.id);
+                        } else {
+                            $('#selectAssessment').val("0");
+                            $('#paperType').val("0");
+                            $('#duration').val("");
+                            $('#passMark').val("");
+                            $('#sumMark').val("");
+                            $('#paperRuleId').val("");
+                        }
+                        $('#table').bootstrapTable('refresh');
+                        $('#modify').modal('hide');
+                    }
+                });
+            }
+        }
+
+        loadOptions(0, '', '资格类型');
+
+        $('select[id^=select]').each(function (i) {
+            $('#select' + i).change(function () {
+                var op = $(this).children('option:selected');
+                loadOptions(i + 1, op.val(), op.attr('clabel'));
+            });
+        });
+    });
+
+
+    function getPaperList() {
+        var majorId = $('#select2 option:selected').val();
+        if (majorId == undefined || majorId == '') {
+            majorId = $('#select1 option:selected').val();
+        }
+        var assessmentNature = $('#selectAssessment option:selected').val();
+        $("#table").bootstrapTable('destroy');
+        $('#table').bootstrapTable({
+            url: '${path}/manager/paper/getPaperList.ajax'
+            , method: 'GET'
+            , dataField: "rows"
+            , cache: false
+            , contentType: 'application/x-www-form-urlencoded'
+            , height: $(window).height() - 300
+            , striped: true
+            , pagination: true
+            , pageList: [5, 15, 30, 50]
+            , pageSize: 15
+            , pageNumber: 1
+            , sidePagination: 'server'
+            , clickToSelect: true
+            , search: false
+            , toolbar: '#deletePapers'
+            , toolbarAlign: 'right'
+            , queryParams: function (params) {
+                if (params['search']) {
+                    params['title'] = params['search'];
+                }
+                params['majorId'] = majorId;
+                params['assessmentNature'] = assessmentNature;
+                offset = params.offset;
+                return params;
+            }
+            , columns: [
+                {
+                    checkbox: true
+                    , align: 'center'
+                    , valign: 'middle'
+                },
+                {
+                    title: "序号"
+                    , align: 'center'
+                    , valign: 'middle'
+                    , formatter: function (value, row, index) {
+                        return offset + index + 1;
+                    }
+                },
+                {
+                    field: 'title'
+                    , title: '试卷标题'
+                    , align: 'center'
+                    , valign: 'middle'
+                },
+                {
+                    field: 'mockMajor'
+                    , title: '考核对象'
+                    , align: 'center'
+                    , valign: 'middle'
+                    , formatter: function (value, row, index) {
+                        return value.name;
+                    }
+                },
+                {
+                    field: 'assessmentNature'
+                    , title: '取证类型'
+                    , align: 'center'
+                    , valign: 'middle'
+                    , formatter: function (value, row, index) {
+                        if (value == '1') {
+                            return '初领';
+                        } else if (value == '2') {
+                            return '复审';
+                        } else if (value == '3') {
+                            return '换证';
+                        }
+                    }
+
+                },
+                {
+                    field: 'duration'
+                    , title: '考试时间'
+                    , align: 'center'
+                    , valign: 'middle'
+                },
+                {
+                    field: 'id'
+                    , title: '操作'
+                    , align: 'center'
+                    , valign: 'middle'
+                    , formatter: function (value, row, index) {
+                        return '<button type="button" class="btn btn-success" onclick="deletePaper(\'' + value + '\')"><span class="glyphicon glyphicon-trash">删除</span></button> ';
+                    }
+                }]
+        });
+    }
+
+    function deletePaper(value) {
+        $.ajax({
+            type: 'GET',
+            url: '${path}/manager/paper/delete.ajax',
+            data: {
+                "id": value
+            },
+            success: function (data) {
+                if (data.success) {
+                    $("#table").bootstrapTable('refresh');
+                    $(".mask").show();
+                    $(".hintModHead").text("成功提示").removeClass("hintModHeadFail");
+                    $(".modCont").text(data.message);
+                } else {
+                    $(".mask").show();
+                    $(".mask .hintModHead").text("失败提示").addClass("hintModHeadFail");
+                    $(".mask .modCont").text(data.error);
+                }
+            }
+        });
+    }
+
+    $(document).on("click", "#deletePapers", function () {
+        var len = $('#table').bootstrapTable('getAllSelections').length;
+        if (len == 0) {
+            alert("请选择需要删除的试卷");
+            return;
+        }
+        $(".confMask").show().addClass("delPapers");
+        $(".confCont").text("是否确定删除试卷?");
+    })
+
+    $(document).on("click", ".delPapers .confBtn", function () {
+        var dataObj = {ids: []};
+        $.map($('#table').bootstrapTable('getSelections'), function (row) {
+            dataObj.ids.push(row.id);
+        });
+        $(".confMask").fadeOut().removeClass("delPapers");
+        $.ajax({
+            type: 'post',
+            url: '${path}/manager/paper/deletePapers.ajax',
+            data: dataObj,
+            success: function (data) {
+                if (data.success) {
+                    $("#table").bootstrapTable('refresh');
+                    $(".mask").show();
+                    $(".hintModHead").text("成功提示").removeClass("hintModHeadFail");
+                    $(".modCont").text(data.message);
+                } else {
+                    $(".mask").show();
+                    $(".mask .hintModHead").text("失败提示").addClass("hintModHeadFail");
+                    $(".mask .modCont").text(data.error);
+                }
+            }
+        });
+    })
+
+    function editPaper(value) {
+        $.ajax({
+            type: 'GET',
+            url: '${path}/manager/paper/delete.ajax',
+            data: {
+                "id": value
+            },
+            success: function (data) {
+                if (data.success) {
+                    $(".mask").show();
+                    $(".hintModHead").text("成功提示").removeClass("hintModHeadFail");
+                    $(".modCont").text(data.message);
+                } else {
+                    $(".mask").show();
+                    $(".mask .hintModHead").text("失败提示").addClass("hintModHeadFail");
+                    $(".mask .modCont").text(data.error);
+                }
+            }
+        });
+    }
+
+    function changeDateFormat(timeJson) {
+        var cellval = timeJson.toString();
+        if (cellval != null) {
+            var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+            return date.getFullYear()
+                + "-"
+                + month
+                + "-"
+                + currentDate
+                + " "
+                + date.getHours()
+                + ":"
+                + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes())
+                + ":"
+                + (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds());
+        }
+    }
+</script>
+</body>
+</html>

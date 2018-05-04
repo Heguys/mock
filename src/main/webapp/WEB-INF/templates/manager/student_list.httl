@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--#set(path = request.contextPath)-->
+    <!--#set(MockManager mockManager = session.getAttribute("com.hxminco.mock.comm.entry.MockManager"))-->
+    <!--#set(net.bnusei.model.UserBaseInfo userBaseInfo = session.getAttribute("net.bnusei.model.UserBaseInfo-manager"))-->
+    <!--${include("../head_table.httl")}-->
+</head>
+<body class="bgPhoto">
+<div class="header">
+    <div class="title-div">
+        <ul class="titleClass">
+            <li><a class="active" href="${path}/manager/student/list.html">学生管理</a></li>
+            <li><a href="${path}/migrate/toMigratePage.html">试题导入</a></li>
+            <li><a href="${path}/manager/paper/list.html">试题管理</a></li>
+        </ul>
+    </div>
+    <div class="headerTXT">
+        <div class="newTime">
+            <div class="timeTXT"></div>&emsp;&emsp;
+            <div class="welcome">管理员:${userBaseInfo.name}</div>
+        </div>
+    </div>
+</div>
+    <div style="background-color:#fff;margin:7% 10% 0 ;width:80%;">
+        <table class="table table-hover" id="table"></table>
+    </div>
+<script src="${path}/res/js/mock/common.js"></script>
+<script>
+
+    $(function () {
+        getStudentList();
+    })
+
+    function getStudentList() {
+        //$("#table").bootstrapTable('destroy');
+        $('#table').bootstrapTable({
+            url: '${path}/manager/student/getStudentList.ajax'
+            , method: 'GET'
+            , dataField: "rows"
+            , cache: false
+            , contentType: 'application/x-www-form-urlencoded'
+            , height: $(window).height() - 300
+            , striped: true
+            , pagination: true
+            , pageList: [5, 15, 30]
+            , pageSize: 15
+            , pageNumber: 1
+            , sidePagination: 'server'
+            , clickToSelect: true
+            , search: false
+            , queryParams: function (params) {
+                if (params['search']) {
+                    params['title'] = params['search'];
+                }
+                offset = params.offset;
+                return params;
+            }
+            , columns: [
+                {
+                    title: "序号",
+                    align: 'center'
+                    ,formatter: function (value, row, index) {
+                        return offset + index + 1;
+                    }
+                },
+                {
+                    field: 'name'
+                    , title: '学生姓名'
+                    , align: 'center'
+                },
+                {
+                    field: 'account'
+                    , title: '学生手机号'
+                    , align: 'center'
+                },
+                {
+                    field: 'createDate'
+                    , title: '首次访问时间'
+                    , align: 'center'
+                    ,formatter: function (value, row, index) {
+                        return changeDateFormat(value);
+                    }
+                },
+                {
+                    field: 'latestVisitDate'
+                    , title: '最近一次登陆时间'
+                    , align: 'center'
+                    ,formatter: function (value, row, index) {
+                        return changeDateFormat(value);
+                    }
+                },
+                {
+                    field: 'completedMocks'
+                    , title: '已完成的模考数'
+                    , align: 'center'
+                },
+                {
+                    field: 'studentId'
+                    , title: '操作'
+                    , align: 'center'
+                    , formatter: function (value, row, index) {
+                    var e = '';
+                    if (row.examStatus == 2) {
+                        e = '<button type="button" class="btn btn-info" onclick="window.location.href=\'${path}/student/examPage.html?examId='+value+'\'"><span class="glyphicon glyphicon-pencil">继续考试</span></button> ';
+                    } else if (row.examStatus == 3) {
+                        e = '<button type="button" class="btn btn-success" onclick="window.location.href=\'${path}/student/toViewPage.html?examId='+value+'\'"><span class="glyphicon glyphicon-zoom-in">查看答卷</span></button> ';
+                    }
+                    return e;
+                    }
+                }]
+        });
+    }
+
+    function changeDateFormat(timeJson) {
+        var cellval = timeJson.toString();
+        if (cellval != null) {
+            var date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/", ""), 10));
+            var month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+            var currentDate = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+            return date.getFullYear()
+                    + "-"
+                    + month
+                    + "-"
+                    + currentDate
+                    + " "
+                    + date.getHours()
+                    + ":"
+                    + (date.getMinutes()<10?"0" + date.getMinutes():date.getMinutes())
+                    + ":"
+                    + (date.getSeconds()<10?"0" + date.getSeconds():date.getSeconds());
+        }
+    }
+</script>
+</body>
+</html>
